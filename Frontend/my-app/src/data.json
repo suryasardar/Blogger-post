@@ -1,0 +1,53 @@
+[
+    {
+      "title": "Delicious Pizza",
+      "image": "https://example.com/pizza.jpg",
+      "short_description": "A mouth-watering pizza topped with cheese, pepperoni, and mushrooms."
+    },
+    {
+      "title": "Fresh Salad",
+      "image": "https://example.com/salad.jpg",
+      "short_description": "A refreshing salad with mixed greens, tomatoes, cucumbers, and a balsamic vinaigrette."
+    },
+    {
+      "title": "Juicy Burger",
+      "image": "https://example.com/burger.jpg",
+      "short_description": "A juicy beef burger served with lettuce, tomato, onion, and pickles."
+    },
+    {
+      "title": "Creamy Pasta",
+      "image": "https://example.com/pasta.jpg",
+      "short_description": "A creamy pasta dish with penne, Alfredo sauce, chicken, and broccoli."
+    },
+    {
+      "title": "Tasty Tacos",
+      "image": "https://example.com/tacos.jpg",
+      "short_description": "Delicious tacos filled with seasoned beef, lettuce, cheese, and salsa."
+    },
+    {
+      "title": "Sushi Rolls",
+      "image": "https://example.com/sushi.jpg",
+      "short_description": "Fresh sushi rolls with rice, seaweed, salmon, avocado, and cucumber."
+    },
+    {
+      "title": "Cheesy Quesadillas",
+      "image": "https://example.com/quesadillas.jpg",
+      "short_description": "Warm and cheesy quesadillas with melted cheese, chicken, and bell peppers."
+    },
+    {
+      "title": "Crispy Fried Chicken",
+      "image": "https://example.com/chicken.jpg",
+      "short_description": "Crispy fried chicken pieces served with fries and coleslaw."
+    },
+    {
+      "title": "Hearty Soup",
+      "image": "https://example.com/soup.jpg",
+      "short_description": "A hearty soup made with vegetables, beans, and broth, perfect for a chilly day."
+    },
+    {
+      "title": "Decadent Chocolate Cake",
+      "image": "https://example.com/cake.jpg",
+      "short_description": "A decadent chocolate cake topped with chocolate ganache and fresh berries."
+    }
+  ]
+  
