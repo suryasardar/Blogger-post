@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 
 const Container = styled.div`
   display: flex;
@@ -53,21 +55,24 @@ const SIGNUP = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null); // Initialize error state
+  // const [error, setError] = useState(null); // Initialize error states
+  const history = useNavigate(); // Get the history object from React Router
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/signup", {
+      const response = await axios.post("http://localhost:4000/api/user/signup", {
         username,
         email,
         password,
       });
       console.log("Signup successful:", response.data);
+      history.push('/login');
+
       // Add logic to handle successful signup (e.g., redirect to another page)
     } catch (error) {
       console.error("Error signing up:", error);
-      setError(error.response.data.message); // Set error state
+      // setError(error.response.data.message); // Set error state
       // Add logic to handle signup error (e.g., display error message)
     }
   };

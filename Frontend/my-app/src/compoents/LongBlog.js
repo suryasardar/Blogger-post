@@ -38,27 +38,25 @@ const Summary = styled.p`
   text-align: center;
 `;
 
-const BLOGLists = () => {
+const BLOGLists = ({ selectedId })  => {
     const [Blist, setBlist] = useState([]);
   
     useEffect(() => {
-      // Fetch data from the API using Axios
-      axios.get('http://localhost:4000/get/posts')
+        // Fetch data from the API using Axios
+        console.log("long");
+        axios.get(`http://localhost:4000/get/posts/${selectedId}`)
           .then(response => setBlist(response.data))
           .catch(error => console.error('Error fetching data:', error));
-        
-    }, []);
+    }, [selectedId]); // Make sure to include selectedId in the dependency array
   
-    console.log(Blist);
+    console.log("long");
 
     return (
         <Container>
             {Blist.map((food, index) => (
                 <div key={index}>
                     <Title>{food.title}</Title>
-                    
-                        <Image src={food.image} alt={food.title} />
-                    
+                    <Image src={food.image} alt={food.title} />
                     <Description>{food.shortDescription}</Description>
                     <LongDescription>{food.long}</LongDescription>
                     <Summary>{food.summary}</Summary>

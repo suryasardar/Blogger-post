@@ -84,18 +84,7 @@ const handleImageChange = (e) => {
           setlong(value);
         }
     };
-    const handleSubmitcare = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Your form submission logic
-
-      // Redirect to homepage after successful form submission
     
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
-  };
 
 
   const handleSummaryChange = (value) => {
@@ -111,7 +100,7 @@ const handleImageChange = (e) => {
     //   const { title, image, shortDescription, long, summary } = formData; // Assuming you have formData state to hold the form data
   
       // Make the POST request
-      const response = await axios.post('http://localhost:4000/api/posts', {
+      const response = await axios.post('http://localhost:4000/api/user/postblog', {
         title,
         image,
         shortDescription,
@@ -156,7 +145,7 @@ const handleImageChange = (e) => {
         <ReactQuill value={summary} onChange={handleSummaryChange} />
         <CharacterCount exceeded={summary.length > 30}>{summary.length}/30</CharacterCount>
       </FormGroup>
-          <button type="submit" onClick={handleSubmitcare}>Submit</button>
+          <button type="submit" >Submit</button>
     </FormContainer>
   );
 };

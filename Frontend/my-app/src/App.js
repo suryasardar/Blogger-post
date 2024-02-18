@@ -5,8 +5,8 @@ import Login from './compoents/login';
 import SIGNUP from './compoents/signup';
 import Blog from './compoents/blog';
 // import BLOGList from './compoents/bloglist';
-import BLOGLists from './compoents/bloglist';
-
+// import BLOGList from './compoents/bloglist';
+import BLOGLists from './compoents/LongBlog';
 import './App.css';
 
 function App() {
