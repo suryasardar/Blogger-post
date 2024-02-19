@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { useNavigate,useParams } from 'react-router-dom';
+// import Short from './Short';
 // import { Link } from 'react-router-dom';
 
 const Container = styled.div`
@@ -38,16 +40,22 @@ const Summary = styled.p`
   text-align: center;
 `;
 
-const BLOGLists = ({ selectedId })  => {
-    const [Blist, setBlist] = useState([]);
+const BLOGLists = ()  => {
+  const [Blist, setBlist] = useState([]);
+  const { uid } = useParams();
+
+  // const navigate = useNavigate();
+  // if (!selectedId) {
+  //   navigate('/blogs');
+  // }
   
     useEffect(() => {
         // Fetch data from the API using Axios
         console.log("long");
-        axios.get(`http://localhost:4000/get/posts/${selectedId}`)
+        axios.get(`http://localhost:4000/api/user/getblog/${uid}`)
           .then(response => setBlist(response.data))
           .catch(error => console.error('Error fetching data:', error));
-    }, [selectedId]); // Make sure to include selectedId in the dependency array
+    }, []); // Make sure to include selectedId in the dependency array
   
     console.log("long");
 
@@ -57,7 +65,6 @@ const BLOGLists = ({ selectedId })  => {
                 <div key={index}>
                     <Title>{food.title}</Title>
                     <Image src={food.image} alt={food.title} />
-                    <Description>{food.shortDescription}</Description>
                     <LongDescription>{food.long}</LongDescription>
                     <Summary>{food.summary}</Summary>
                 </div>

@@ -1,10 +1,10 @@
 import React from "react";
-import BLOGList from "../compoents/bloglist";
-
+import Short from "../compoents/Short";
 
 const Homepage = () => {
-    return (
-        <BLOGList/>
-    )
-}
+  return (
+    
+    <Short />
+  );
+};
 export default Homepage;

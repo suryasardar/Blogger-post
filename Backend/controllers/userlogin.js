@@ -1,6 +1,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const express = require('express');
+const app = express();
+const cookieParser = require("cookie-parser");
 const User = require('../models/usermodel');
+
+app.use(cookieParser());
 
 const login = ("/login", async (req, res) => {
     try {
@@ -20,7 +25,9 @@ const login = ("/login", async (req, res) => {
   
       // Generate JWT token
       const token = jwt.sign({ userId: user._id }, "your-secret-key");
-  
+      
+      res.cookie('token', token, { httpOnly: true });
+
       res.json({ token });
     } catch (error) {
       console.error("Error logging in:", error);

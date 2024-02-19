@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -52,29 +53,37 @@ const Button = styled.button`
 
 const Login = () => {
   const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
-
-//   const [error, setError] = useState(null);
-
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email.trim() || !password.trim()) {
+      setError("All fields are required");
+      return;
+    }
+
     try {
+      setLoading(true);
+      setError(null);
       const response = await axios.post("http://localhost:4000/api/user/login", {
-        email,
-        password,
+        email: email.trim(),
+        password: password.trim(),
       });
-        if (!response.data) {
-            navigate('/');
-        }
+      localStorage.setItem('token', response.data.token);
+
       console.log("Login successful:", response.data);
-      // Add logic to handle successful login (e.g., redirect to another page)
+      setLoading(false);
+      navigate("/");
+      window.location.reload();
     } catch (error) {
       console.error("Error logging in:", error);
-    //   setError(error.response.data.message);
-      // Add logic to handle login error (e.g., display error message)
+      setLoading(false);
+      setError("Password or email is incorrect");
     }
   };
+
   return (
     <Container>
       <LoginForm onSubmit={handleSubmit}>
@@ -95,7 +104,14 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </InputGroup>
-        <Button type="submit">Login</Button>
+        <Button type="submit" disabled={loading}>
+          {loading && <Spinner>Loading...</Spinner>}
+          Login
+        </Button>
+        <p style={{ fontWeight: "bold" }}>
+          Didn't signup<Link to="/signup">click Here</Link>
+        </p>
+        {error && <div style={{ color: "red" }}>{error}</div>}
       </LoginForm>
     </Container>
   );

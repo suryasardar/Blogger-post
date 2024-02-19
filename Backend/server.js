@@ -2,13 +2,14 @@
 
 const express = require("express");
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const mongoose = require("mongoose");
+ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const router = require("./routes/userrouter");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const app = express();
+app.use(cookieParser());
 const port = 4000;
 //mangoose connection
 mongoose
@@ -18,7 +19,7 @@ mongoose
 
 //connection to uses
 app.use(cors());
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.json());
 app.use("/api/user", router);
 

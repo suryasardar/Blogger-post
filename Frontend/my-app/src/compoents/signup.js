@@ -55,11 +55,16 @@ const SIGNUP = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [error, setError] = useState(null); // Initialize error states
+  const [error, setError] = useState(null); // Initialize error states
   const history = useNavigate(); // Get the history object from React Router
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!username||!email||!password) {
+      setError("All fields are required");
+      return;
+    }
+
     try {
       const response = await axios.post("http://localhost:4000/api/user/signup", {
         username,
@@ -67,7 +72,9 @@ const SIGNUP = () => {
         password,
       });
       console.log("Signup successful:", response.data);
-      history.push('/login');
+      // if (response.ok) {
+        history('/login');
+      // }
 
       // Add logic to handle successful signup (e.g., redirect to another page)
     } catch (error) {
@@ -86,7 +93,7 @@ const SIGNUP = () => {
           <Input
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value.trim())}
           />
         </FormGroup>
         <FormGroup>
@@ -94,7 +101,7 @@ const SIGNUP = () => {
           <Input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.trim())}
           />
         </FormGroup>
         <FormGroup>
@@ -105,8 +112,10 @@ const SIGNUP = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
-        <Button type="submit">Sign Up</Button>
-      </SignupForm>
+        <Button type="submit" >Sign Up</Button>
+        {error && <div style={{ color: "red" }}>{error}</div>}
+
+       </SignupForm>
     </Container>
   );
 };

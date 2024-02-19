@@ -3,7 +3,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import axios from "axios";
-import {useNavigate } from 'react-router-dom';
+
+import {Link, useNavigate } from 'react-router-dom';
 
 
 const FormContainer = styled.form`
@@ -51,7 +52,8 @@ padding: 8px;
   
   const [shortDescription, setShortDescription] = useState('');
   const [long, setlong] = useState('');
-  const [summary, setSummary] = useState('');
+    const [summary, setSummary] = useState('');
+    
   const [imagePreview, setImagePreview] = useState(null);
   
   const handleTitleChange = (e) => {
@@ -59,6 +61,10 @@ padding: 8px;
       setTitle(e.target.value);
     }
 };
+    // const token = Cookies.get('token');
+    const token = localStorage.getItem('token');
+
+    // console.log(token);
 
 const navigate = useNavigate();
 const handleImageChange = (e) => {
@@ -73,6 +79,7 @@ const handleImageChange = (e) => {
     }
   };
 
+  
   const handleShortDescriptionChange = (e) => {
     if (e.target.value.length <= 25) {
       setShortDescription(e.target.value);
@@ -110,12 +117,17 @@ const handleImageChange = (e) => {
   
       // Handle the response
       console.log('Post created:', response.data);
+      window.location.reload();
+
       // Optionally, you can redirect the user to another page or perform other actions
     } catch (error) {
       console.error('Error creating post:', error);
       // Handle error, show a message to the user, etc.
     }
   };
+    if (!token) {
+      navigate('/login')
+    }
 
   return (
     <FormContainer onSubmit={handleSubmit}>
@@ -145,7 +157,9 @@ const handleImageChange = (e) => {
         <ReactQuill value={summary} onChange={handleSummaryChange} />
         <CharacterCount exceeded={summary.length > 30}>{summary.length}/30</CharacterCount>
       </FormGroup>
+      {/* <Link to={'/'}> */}
           <button type="submit" >Submit</button>
+      {/* </Link> */}
     </FormContainer>
   );
 };

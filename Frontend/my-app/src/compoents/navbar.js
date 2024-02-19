@@ -1,11 +1,11 @@
- // Navbar.js
-// Navbar.js
-import React from "react";
+
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+// import { DarkModeSwitch } from 'react-toggle-dark-mode';
 
 const Nav = styled.nav`
-  background-color: #333;
+  background-color: #141010;
   color: white;
   padding: 10px;
   display: flex;
@@ -26,30 +26,62 @@ const Ul = styled.ul`
 
 const Li = styled.li`
   margin-right: 20px;
-`;
-
-const URL = styled.a`
-  color: white;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
+  & > a {
+    /* Select the anchor tag inside Li */
+    color: white; /* Set color to white */
+    text-decoration: none;
   }
 `;
 
 const Navbar = () => {
+  const [logged, setLogged] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setLogged(true);
+    }
+  }, []);
+
+  const handlelocal = () => {
+    localStorage.removeItem("token");
+    setLogged(false);
+  };
+
   return (
     <Nav>
       <Logo>Blog Logo</Logo>
       <Ul>
         <Li>
-          <Link to="/login">Login</Link>
+          <Link to="/blog" style={{ color: "white" }}>
+            CreateBlog
+          </Link>
         </Li>
-        <Li>
-          <Link to="/blog">Blog</Link>
-        </Li>
-        <Li>
-          <Link to="/signup">Signup</Link>
-        </Li>
+        {logged ? (
+          <Li>
+            <div onClick={handlelocal}>
+              <Link
+                to="/login"
+                style={{
+                  color: "white",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Logout
+              </Link>
+            </div>
+          </Li>
+        ) : (
+            <Li>
+              {/* <div onClick={handlelogout}> */}
+            <Link to="/login" style={{ color: "white" }}>
+              Sign In
+            </Link>
+              {/* </div> */}
+          </Li>
+        )}
       </Ul>
     </Nav>
   );

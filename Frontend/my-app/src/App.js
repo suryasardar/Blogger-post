@@ -6,7 +6,7 @@ import SIGNUP from './compoents/signup';
 import Blog from './compoents/blog';
 // import BLOGList from './compoents/bloglist';
 // import BLOGList from './compoents/bloglist';
-import BLOGLists from './compoents/LongBlog';
+import Blogpage from './pages/Blogpage';
 import './App.css';
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SIGNUP />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/blogs" element={<BLOGLists />} />
+        <Route path='/getblog/:uid' element={<Blogpage/>} />
 
         
 
