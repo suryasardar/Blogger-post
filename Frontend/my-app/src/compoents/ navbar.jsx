@@ -22,12 +22,12 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="flex-none w-15"  >
-     <img src={Blog} alt="BLOG" className="w-full"/>
+      <Link to="/" className=" w-10"  >
+     <img src={Blog} alt="BLOG"/>
       </Link>
       <ul>
         <li>
-          <Link to="/blog" style={{ color: "black" }}>
+          <Link to="/blog">
             CreateBlog
           </Link>
         </li>
@@ -49,7 +49,7 @@ const Navbar = () => {
           </li>
         ) : (
           <li>
-            <Link to="/login" style={{ color: "black" }}>
+            <Link to="/login">
               Sign In
             </Link>
           </li>

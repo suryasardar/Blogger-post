@@ -7,7 +7,7 @@
 
 @layer components {
     * {
-        @apply m-0 p-0 box-border text-base outline-purple-50 duration-100;
+        @apply m-0 p-0 box-border text-base outline-purple/30 duration-100;
     }
 
     html{
@@ -15,7 +15,7 @@
     }
 
     body {
-        @apply font-[inter] font-normal text-black;
+        @apply font-inter font-normal text-black;
     }
 
     i {
@@ -27,7 +27,7 @@
     }
 
     ::selection {
-        @apply bg-purple-50;
+        @apply bg-purple/30;
     }
 
     img{
@@ -67,7 +67,7 @@
     }
 
     .link{
-        @apply text-gray-50 hover:text-black hover:bg-gray-100 p-3 px-4 block opacity-75;
+        @apply text-dark-grey hover:text-black hover:bg-grey p-3 px-4 block opacity-75;
     }
 
     .hide{
@@ -87,19 +87,19 @@
     }
 
     #textEditor h2, h2{
-        @apply font-[inter] text-4xl leading-normal font-bold max-md:text-3xl max-md:leading-snug !important;
+        @apply font-inter text-4xl leading-normal font-bold max-md:text-3xl max-md:leading-snug !important;
     }
 
     #textEditor h3, h3 {
-        @apply font-[inter] text-3xl leading-loose max-md:text-2xl max-md:leading-normal !important;
+        @apply font-inter text-3xl leading-loose max-md:text-2xl max-md:leading-normal !important;
     }
 
     #textEditor *, .blog-page-content *{
-        @apply font-[gelasio] text-xl leading-10 md:text-2xl;
+        @apply font-gelasio text-xl leading-10 md:text-2xl;
     }
 
     #textEditor a, .blog-page-content a{
-        @apply text-purple-500 underline hover:opacity-50;
+        @apply text-purple underline hover:opacity-50;
     }
 
     .tag{
