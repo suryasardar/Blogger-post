@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Blog from "../Images/logo.png"
 // import { DarkModeSwitch } from 'react-toggle-dark-mode';
  
 
@@ -21,7 +22,9 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <p>Blog logo</p>
+      <Link to="/" className="flex-none w-15"  >
+     <img src={Blog} alt="BLOG" className="w-full"/>
+      </Link>
       <ul>
         <li>
           <Link to="/blog" style={{ color: "black" }}>
