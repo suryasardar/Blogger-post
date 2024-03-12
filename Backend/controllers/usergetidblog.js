@@ -4,7 +4,7 @@ const getID = ('/getblog/:uid', async (req, res) => {
     try {
         const blogId = req.params.uid;
         // Fetch blog from MongoDB by ID
-        const blog = await BlogPost.findById(blogId);
+        const blog = await BlogPost.findOne({ uid: blogId });
         if (!blog) {
             return res.status(404).json({ message: 'Blog not found' });
         }

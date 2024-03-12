@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import axios from "axios";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {Link, useNavigate } from 'react-router-dom';
 
@@ -128,15 +129,18 @@ const handleImageChange = (e) => {
     if (!token) {
       navigate('/login')
     }
+    const imgageurl = "/product-2.jpeg";
 
-  return (
-    <FormContainer onSubmit={handleSubmit}>
-      <FormGroup>
-        <Label>Title:</Label>
-        <Input type="text" value={title} onChange={handleTitleChange} />
-        <CharacterCount exceeded={title.length > 10}>{title.length}/10</CharacterCount>
-      </FormGroup>
-      <FormGroup>
+    return (
+      <>
+        <img src= {imgageurl} className="img-fluid" alt="ok" />
+      <FormContainer onSubmit={handleSubmit}>
+         <FormGroup>
+          <Label>Title:</Label>
+          <Input type="text" value={title} onChange={handleTitleChange} />
+          <CharacterCount exceeded={title.length > 10}>{title.length}/10</CharacterCount>
+        </FormGroup>
+        <FormGroup>
         <Label>Image:</Label>
         <Input type="file" accept="image/*" onChange={handleImageChange} />
         {imagePreview && <ImagePreview src={imagePreview} alt="Preview" />}
@@ -149,7 +153,7 @@ const handleImageChange = (e) => {
       <FormGroup>
         <Label>long Description:</Label>
        <ReactQuill value={long} onChange={handleLongdescription} />
-
+    
         <CharacterCount exceeded={long.length > 1000}>{long.length}/1000</CharacterCount>
       </FormGroup>
       <FormGroup>
@@ -161,7 +165,8 @@ const handleImageChange = (e) => {
           <button type="submit" >Submit</button>
       {/* </Link> */}
     </FormContainer>
-  );
-};
+      </>
+    );
+  };
  
 export default BloggerPostForm;

@@ -55,20 +55,21 @@ const BLOGLists = ()  => {
         axios.get(`http://localhost:4000/api/user/getblog/${uid}`)
           .then(response => setBlist(response.data))
           .catch(error => console.error('Error fetching data:', error));
-    }, []); // Make sure to include selectedId in the dependency array
+    }, [uid]); // Make sure to include selectedId in the dependency array
   
-    console.log("long");
+    console.log(Blist);
 
     return (
         <Container>
-            {Blist.map((food, index) => (
-                <div key={index}>
-                    <Title>{food.title}</Title>
-                    <Image src={food.image} alt={food.title} />
-                    <LongDescription>{food.long}</LongDescription>
-                    <Summary>{food.summary}</Summary>
-                </div>
-            ))}
+    {/* { Blist.map((food, index) => ( */}
+          <div key={Blist}>
+            <Title>{Blist.title}</Title>
+            <Image src={Blist.image} alt={Blist.title} />
+            <LongDescription>{Blist.long}</LongDescription>
+            <Summary>{Blist.summary}</Summary>
+          </div>
+        {/* ) */}
+        {/* )} */}
         </Container>
     );
 };
