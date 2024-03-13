@@ -36,7 +36,7 @@ const Navbar = () => {
           
       </div>
       <div className="flex items-center gap-3 md:gap-6 ml-auto">
-        <button className="md:hidden bg-grey w-12 h-12 rounded-full flex items-center justify-center">
+        <button className="md:hidden bg-grey w-11 h-11 rounded-full flex items-center justify-center">
         <i className="fi fi-rr-search text-xl"></i>
         </button>
       </div>
