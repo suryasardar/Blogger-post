@@ -5,6 +5,7 @@ import Blog from "../Images/logo.png";
 
 const Navbar = () => {
   const [logged, setLogged] = useState(false);
+  const[searchvisibility,setsearchvisibility]=useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -20,11 +21,10 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <Link to="/" className=" w-10">
-        <img src={Blog} alt="BLOG" />
+      <Link to="/" className="flex-none w-10 pl-2">
+        <img src={Blog} alt="BLOG" className="w-full" />
       </Link>
-      <div className="absolute bg-white w-full left-0 top-full mt-0.5 border-b border-grey py-4 
-      px-[5vw] md:border-0 md:block md:relative md:inset-0 md:p-0 md:w-auto">
+      <div className={`absolute bg-white w-full left-0 top-full mt-0.5 border-b border-grey py-4 px-[5vw] md:border-0 md:block md:relative md:inset-0 md:p-0 md:w-auto md:show ${searchvisibility ? "show" : "hide"}`}>
         
 
         <input
@@ -36,7 +36,7 @@ const Navbar = () => {
           
       </div>
       <div className="flex items-center gap-3 md:gap-6 ml-auto">
-        <button className="md:hidden bg-grey w-11 h-11 rounded-full flex items-center justify-center">
+        <button className="md:hidden bg-grey w-11 h-11 rounded-full flex items-center justify-center" onClick={()=>{setsearchvisibility(currentvalue=>!currentvalue)}}>
         <i className="fi fi-rr-search text-xl"></i>
         </button>
       </div>
