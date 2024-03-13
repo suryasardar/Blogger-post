@@ -91,10 +91,10 @@ console.log(type,"ok");
     <section className="h-cover flex items-center justify-center">
       <form className="w-[40%] max-w-[400px] ">
         <h1 className="text-4xl font-gelasio capitalize text-center mb-5">
-          {type == "sign-in" ? "Welcome Back" : "Join Us Today"}
+          {type === "sign-in" ? "Welcome Back" : "Join Us Today"}
         </h1>
         {
-          type !="sign-in"? <Input name='Fullname' type='text' placeholder='Fullname' icon='fi-rr-user'/>: ""
+          type !=="sign-in"? <Input name='Fullname' type='text' placeholder='Fullname' icon='fi-rr-user'/>: ""
         }
 
         <Input name='Email' type='email' placeholder='Email' icon='fi-rr-envelope' />

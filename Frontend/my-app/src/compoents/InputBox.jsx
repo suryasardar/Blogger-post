@@ -16,7 +16,7 @@ function Input({ name, type, id, value, placeholder, icon }) {
       <i className={"fi " + icon + " input-icon"}></i>
 
       {
-        type == "Password" ? 
+        type === "Password" ? 
           <i className={"fi fi-rr-eye"+ (!passvisibility ? "-crossed" : "")+ " input-icon left-auto right-4 cursor-pointer"} onClick={()=>{setpassvisibility(value=>!value)}}></i>
          : 
           ""
