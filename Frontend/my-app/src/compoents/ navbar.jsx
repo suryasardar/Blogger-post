@@ -39,6 +39,16 @@ const Navbar = () => {
         <button className="md:hidden bg-grey w-11 h-11 rounded-full flex items-center justify-center" onClick={()=>{setsearchvisibility(currentvalue=>!currentvalue)}}>
         <i className="fi fi-rr-search text-xl"></i>
         </button>
+        <Link to='/editor' className="hidden md:flex gap-2 link py-2">
+        <i className="fi fi-rr-file-edit"></i>
+          <p>write</p>
+        </Link>
+        <Link className="btn-dark py-2" to='/login'>
+         Sign In
+        </Link>
+        <Link className="btn-light py-2" to='/login'>
+         Sign In
+        </Link>
       </div>
       <ul>
         <li>
