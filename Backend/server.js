@@ -2,7 +2,7 @@
 
 const express = require("express");
 const cors = require("cors");
- const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const router = require("./routes/userrouter");
 const cookieParser = require("cookie-parser");
@@ -13,16 +13,15 @@ app.use(cookieParser());
 const port = 4000;
 //mangoose connection
 mongoose
-.connect(process.env.MONGODB_URI)
-.then(() => console.log("Connected to MongoDB"))
-.catch((err) => console.error("Error connecting to MongoDB:", err));
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Error connecting to MongoDB:", err));
 
 //connection to uses
 app.use(cors());
 // app.use(cookieParser());
 app.use(express.json());
 app.use("/api/user", router);
-
 
 // Protected route
 app.get("/protected", authenticateToken, (req, res) => {
@@ -45,7 +44,6 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
-
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
