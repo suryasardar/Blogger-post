@@ -1,48 +1,65 @@
 // Login.js
-import React, { useState } from "react";
- 
+import React, { useRef, useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 import google from "../Images/google.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import Input from "./InputBox";
 import Pageanimation from "../common/Pageanimation";
 
 const Login = ({ type }) => {
-  // const navigate = useNavigate();
+  const DetailForm = useRef();
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!email.trim() || !password.trim()) {
-  //     setError("All fields are required");
-  //     return;
-  //   }
 
-  //   try {
-  //     setLoading(true);
-  //     setError(null);
-  //     const response = await axios.post(
-  //       "http://localhost:4000/api/user/login",
-  //       {
-  //         email: email.trim(),
-  //         password: password.trim(),
-  //       }
-  //     );
-  //     localStorage.setItem("token", response.data.token);
+const userAuthThroughserver = (serverRoute, formData) => {
+  
+}
 
-  //     console.log("Login successful:", response.data);
-  //     setLoading(false);
-  //     navigate("/");
-  //     window.location.reload();
-  //   } catch (error) {
-  //     console.error("Error logging in:", error);
-  //     setLoading(false);
-  //     setError("Password or email is incorrect");
-  //   }
-  // };
 
+
+  const Handlesubmit = (e) => {
+    e.preventDefault();
+
+   let serverRoute=type=="sign-in" ? "/signin":"/signup"
+
+    let emailregrex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    let passwordregrex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+
+    let form = new FormData(DetailForm.current); 
+    let formData = {};
+    //it is created because to loop
+    for (let [key, value] of form.entries()) {
+      formData[key] = value;
+    }
+    console.log(formData);
+
+    let { Fullname, Email, Password } = formData;
+    
+     
+
+    if (Fullname) {
+      //in login the fullname will not be
+      if (Fullname.length < 3) {
+        return toast.error("full name must be atleast 3 letters long");
+      }
+    }
+    if (!Email) {
+      return toast.error("Enter Email");
+    }
+    if (!emailregrex.test(Email)) {
+      return toast.error("Email is Invalid");
+    }
+    if (!passwordregrex.test(Password)) {
+      return toast.error(
+        "Password must be 6 to 20 characters long with a number,1 lowercase and 1 uppercase letters"
+      );
+    }
+    userAuthThroughserver(serverRoute, formData);
+  };
   return (
     <Pageanimation keyValue={type}>
       <section className="h-cover flex items-center justify-center">
-        <form className="w-[40%] max-w-[400px] ">
+        <Toaster />
+        <form ref={DetailForm} className="w-[40%] max-w-[400px] ">
           <h1 className="text-4xl font-gelasio capitalize text-center mb-5">
             {type === "sign-in" ? "Welcome Back" : "Join Us Today"}
           </h1>
@@ -69,7 +86,11 @@ const Login = ({ type }) => {
             placeholder="Password"
             icon="fi-rr-lock"
           />
-          <button className="btn-dark center mt-6" type="submit">
+          <button
+            onClick={Handlesubmit}
+            className="btn-dark center mt-6"
+            type="submit"
+          >
             {type.replace("-", " ")}
           </button>
 
@@ -91,7 +112,7 @@ const Login = ({ type }) => {
             </p>
           ) : (
             <p className="text-center text-dark-grey mt-3">
-               Already a member ?
+              Already a member ?
               <Link to="/login" className="text-black">
                 Sign In Here
               </Link>

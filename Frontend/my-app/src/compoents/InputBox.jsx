@@ -7,7 +7,7 @@ function Input({ name, type, id, value, placeholder, icon }) {
     <div className="relative w-[100%] mb-4">
       <input
         name={name}
-        type={type=="Password" ? passvisibility ?"text":"password":type}
+        type={type==="Password" ? passvisibility ?"text":"password":type}
         placeholder={placeholder}
         defaultValue={value}
         id={id}

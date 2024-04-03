@@ -1,7 +1,7 @@
 const User = require("../models/usermodel"); // Import the User model
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const uid=require("uuid")
+const uid = require("uuid");
 // const { nanoid } = require('nanoid');
 
 let emailregrex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -19,16 +19,14 @@ const formatDatatosend = (user) => {
 
 const generateusername = async (email) => {
   try {
-    
     let username = email.split("@")[0];
     let userunique = await User.exists({ personal_info: username }).then(
       (result) => result
-      );
-      userunique ? (username += uid().substring(0, 5)) : "";
-      return username;
-    }
-  catch (error) {
-    console.error("error generating username",error)
+    );
+    userunique ? (username += uid().substring(0, 5)) : "";
+    return username;
+  } catch (error) {
+    console.error("error generating username", error);
   }
 };
 
@@ -56,13 +54,6 @@ const signup =
         });
       }
 
-      // Check if user already exists
-      // const existingUser = await User.findOne({ email });
-      // if (existingUser) {
-      //   return res.status(400).json({ message: "User already exists" });
-      // }
-
-      // Hash the password
       bcrypt.hash(password, 10, async (err, hashedPassword) => {
         let username = await generateusername(email);
         // Create new user
@@ -74,7 +65,8 @@ const signup =
             username,
           },
         });
-        user.save()
+        user
+          .save()
           .then((u) => {
             return res.status(200).json(formatDatatosend(u));
           })
