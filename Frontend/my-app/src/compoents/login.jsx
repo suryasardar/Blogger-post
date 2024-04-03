@@ -1,7 +1,6 @@
 // Login.js
 import React, { useState } from "react";
-import styled from "styled-components";
-import axios from "axios";
+ 
 import google from "../Images/google.svg";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "./InputBox";
@@ -70,17 +69,17 @@ const Login = ({ type }) => {
             placeholder="Password"
             icon="fi-rr-lock"
           />
-          <button className="btn-dark center mt-14" type="submit">
+          <button className="btn-dark center mt-6" type="submit">
             {type.replace("-", " ")}
           </button>
 
-          <div className="relative w-full  flex items-center gap-2 my-7 opacity-10 uppercase text-black font-bold">
-            <hr className="w-1/2 border-b-red" />
-            <p className=" text-black">or</p>
-            <hr className="w-1/2 border-black" />
+          <div className="relative w-full  flex items-center gap-2 my-3 opacity-10 uppercase text-black font-bold">
+            <hr className="w-1/2 my-1 border-b-red" />
+            <p className=" text-black  my-1">or</p>
+            <hr className="w-1/2 my-1 border-black" />
           </div>
-          <button className="btn-dark center flex items-center justify-center gap-3 w-[80%]">
-            <img src={google} alt="google" className="w-5" />
+          <button className="btn-dark center flex items-center justify-center gap-3   w-[80%]">
+            <img src={google} alt="google" className="w-6" />
             Continue with Google
           </button>
           {type == "sign-in" ? (
@@ -92,7 +91,7 @@ const Login = ({ type }) => {
             </p>
           ) : (
             <p className="text-center text-dark-grey mt-3">
-              3 Already a member ?
+               Already a member ?
               <Link to="/login" className="text-black">
                 Sign In Here
               </Link>

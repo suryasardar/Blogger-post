@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
+ 
 
 let profile_imgs_name_list = ["Garfield", "Tinkerbell", "Annie", "Loki", "Cleo", "Angel", "Bob", "Mia", "Coco", "Gracie", "Bear", "Bella", "Abby", "Harley", "Cali", "Leo", "Luna", "Jack", "Felix", "Kiki"];
 let profile_imgs_collections_list = ["notionists-neutral", "adventurer-neutral", "fun-emoji"];
@@ -77,8 +79,8 @@ const userSchema = new mongoose.Schema({
         default: false
     },
   blogs: {
-      type:String,
-        // type: [ Schema.Types.ObjectId ],
+       
+        type: [ Schema.Types.ObjectId ],
         ref: 'blogs',
         default: [],
     }
