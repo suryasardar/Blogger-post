@@ -1,6 +1,7 @@
 const User = require("../models/usermodel"); // Import the User model
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const uid=require("uuid")
 // const { nanoid } = require('nanoid');
 
 let emailregrex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -17,12 +18,18 @@ const formatDatatosend = (user) => {
 };
 
 const generateusername = async (email) => {
-  let username = email.split("@")[0];
-  let userunique = await User.exists({ personal_info: username }).then(
-    (result) => result
-  );
-  userunique ? (username += nanoid().substring(0, 5)) : "";
-  return username;
+  try {
+    
+    let username = email.split("@")[0];
+    let userunique = await User.exists({ personal_info: username }).then(
+      (result) => result
+      );
+      userunique ? (username += uid().substring(0, 5)) : "";
+      return username;
+    }
+  catch (error) {
+    console.error("error generating username",error)
+  }
 };
 
 const signup =
@@ -31,12 +38,12 @@ const signup =
     try {
       const { fullname, email, password } = req.body;
 
-      if (fullname < 3) {
+      if (fullname.length < 3) {
         return res
           .status(403)
           .json({ error: "full name must be atleast 3 letters long" });
       }
-      if (!email.length) {
+      if (!email) {
         return res.status(403).json({ error: "Enter Email" });
       }
       if (!emailregrex.test(email)) {
@@ -50,14 +57,14 @@ const signup =
       }
 
       // Check if user already exists
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
-      }
+      // const existingUser = await User.findOne({ email });
+      // if (existingUser) {
+      //   return res.status(400).json({ message: "User already exists" });
+      // }
 
       // Hash the password
-      bcrypt.hash(password, 10, (err, hashedPassword) => {
-        let username = generateusername(email);
+      bcrypt.hash(password, 10, async (err, hashedPassword) => {
+        let username = await generateusername(email);
         // Create new user
         const user = new User({
           personal_info: {
@@ -67,8 +74,7 @@ const signup =
             username,
           },
         });
-        newUser
-          .save()
+        user.save()
           .then((u) => {
             return res.status(200).json(formatDatatosend(u));
           })
@@ -76,14 +82,9 @@ const signup =
             if (err.code == 11000) {
               return res.status(500).json({ eror: "email already exists" });
             }
-            return res.status(500).json({ eror: err.message });
+            return res.status(500).json({ errror: err.message });
           });
       });
-
-      // Generate JWT token
-      // 
-
-      res.json({ token });
     } catch (error) {
       console.error("Error signing up:", error);
       res.status(500).json({ message: "Internal server error" });
