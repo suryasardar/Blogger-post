@@ -1,41 +1,56 @@
 // Login.js
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import google from "../Images/google.svg";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Input from "./InputBox";
+import axios from "axios";
 import Pageanimation from "../common/Pageanimation";
 
 const Login = ({ type }) => {
   const DetailForm = useRef();
 
-
-const userAuthThroughserver = (serverRoute, formData) => {
-  
-}
-
-
+  const userAuthThroughserver = (serverRoute, formData) => {
+    axios
+      .post("http://localhost:4000/api/user" + serverRoute, formData)
+      .then((response) => {
+        if (response && response.data) {
+          console.log(response.data);
+        } else {
+          console.error("Response data is undefined");
+        }
+      })
+      .catch((error) => {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          toast.error(error.response.data.error, "ok");
+        } else {
+          console.error("Error occurred:", error.message);
+        }
+      });
+  };
 
   const Handlesubmit = (e) => {
     e.preventDefault();
 
-   let serverRoute=type=="sign-in" ? "/signin":"/signup"
+    let serverRoute = type === "sign-in" ? "/signin" : "/signup";
+    console.log(serverRoute);
 
     let emailregrex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     let passwordregrex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 
-    let form = new FormData(DetailForm.current); 
+    let form = new FormData(DetailForm.current);
     let formData = {};
     //it is created because to loop
     for (let [key, value] of form.entries()) {
       formData[key] = value;
     }
-    console.log(formData);
 
     let { Fullname, Email, Password } = formData;
-    
-     
-
+    console.log(Email);
     if (Fullname) {
       //in login the fullname will not be
       if (Fullname.length < 3) {
@@ -103,7 +118,7 @@ const userAuthThroughserver = (serverRoute, formData) => {
             <img src={google} alt="google" className="w-6" />
             Continue with Google
           </button>
-          {type == "sign-in" ? (
+          {type === "sign-in" ? (
             <p className=" text-center text-dark-grey mt-3">
               Dont have an account ?
               <Link to="/signup" className="text-black">

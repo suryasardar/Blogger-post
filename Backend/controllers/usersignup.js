@@ -13,7 +13,7 @@ const formatDatatosend = (user) => {
     token,
     profile_img: user.personal_info.profile_img,
     username: user.personal_info.username,
-    fullname: user.personal_info.fullname,
+    Fullname: user.personal_info.Fullname,
   };
 };
 
@@ -34,34 +34,35 @@ const signup =
   ("/signup",
   async (req, res) => {
     try {
-      const { fullname, email, password } = req.body;
+      const { Fullname, Email, Password } = req.body;
+      console.log(Fullname, Email, Password);
 
-      if (fullname.length < 3) {
+      if (Fullname < 3) {
         return res
           .status(403)
           .json({ error: "full name must be atleast 3 letters long" });
       }
-      if (!email) {
+      if (!Email) {
         return res.status(403).json({ error: "Enter Email" });
       }
-      if (!emailregrex.test(email)) {
+      if (!emailregrex.test(Email)) {
         return res.status(403).json({ error: "Email is Invalid" });
       }
-      if (!passwordregrex.test(password)) {
+      if (!passwordregrex.test(Password)) {
         return res.status(403).json({
           error:
             "Password must be 6 to 20 characters long with a number,1 lowercase and 1 uppercase letters",
         });
       }
 
-      bcrypt.hash(password, 10, async (err, hashedPassword) => {
-        let username = await generateusername(email);
+      bcrypt.hash(Password, 10, async (err, hashedPassword) => {
+        let username = await generateusername(Email);
         // Create new user
         const user = new User({
           personal_info: {
-            fullname,
-            email,
-            password: hashedPassword,
+            Fullname,
+            Email,
+            Password: hashedPassword,
             username,
           },
         });
@@ -74,12 +75,12 @@ const signup =
             if (err.code == 11000) {
               return res.status(500).json({ eror: "email already exists" });
             }
-            return res.status(500).json({ errror: err.message });
+            return res.status(500).json({ "errror": err.message });
           });
       });
     } catch (error) {
       console.error("Error signing up:", error);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "Internal server OK error" });
     }
   });
 
