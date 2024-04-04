@@ -1,35 +1,38 @@
 // Login.js
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import google from "../Images/google.svg";
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import Input from "./InputBox";
 import axios from "axios";
 import Pageanimation from "../common/Pageanimation";
+import { storeInsession } from "../common/session";
+import { usercontext } from "../App";
 
 const Login = ({ type }) => {
+  const navigate = useNavigate();
+
   const DetailForm = useRef();
+
+  let {
+    userAuth: {
+      data: { token },
+    },
+    setuserAuth,
+  } = useContext(usercontext);
+
+  console.log(token, "token");
 
   const userAuthThroughserver = (serverRoute, formData) => {
     axios
       .post("http://localhost:4000/api/user" + serverRoute, formData)
-      .then((response) => {
-        if (response && response.data) {
-          console.log(response.data);
-        } else {
-          console.error("Response data is undefined");
-        }
+      .then((data) => {
+        storeInsession("user", JSON.stringify(data));
+        setuserAuth(data);
       })
-      .catch((error) => {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.error
-        ) {
-          toast.error(error.response.data.error, "ok");
-        } else {
-          console.error("Error occurred:", error.message);
-        }
+      .catch(({ response }) => {
+        toast.error(response.data.error);
       });
   };
 
@@ -39,7 +42,7 @@ const Login = ({ type }) => {
     let serverRoute = type === "sign-in" ? "/signin" : "/signup";
     console.log(serverRoute);
 
-    let emailregrex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    let emailregrex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
     let passwordregrex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 
     let form = new FormData(DetailForm.current);
@@ -50,7 +53,7 @@ const Login = ({ type }) => {
     }
 
     let { Fullname, Email, Password } = formData;
-    console.log(Email);
+    
     if (Fullname) {
       //in login the fullname will not be
       if (Fullname.length < 3) {
@@ -70,7 +73,13 @@ const Login = ({ type }) => {
     }
     userAuthThroughserver(serverRoute, formData);
   };
+
+  if (token) {
+    navigate('/');
+  }
   return (
+    <>
+     
     <Pageanimation keyValue={type}>
       <section className="h-cover flex items-center justify-center">
         <Toaster />
@@ -84,28 +93,28 @@ const Login = ({ type }) => {
               type="text"
               placeholder="Fullname"
               icon="fi-rr-user"
-            />
-          ) : (
-            ""
-          )}
+              />
+              ) : (
+                ""
+                )}
 
           <Input
             name="Email"
             type="email"
             placeholder="Email"
             icon="fi-rr-envelope"
-          />
+            />
           <Input
             name="Password"
             type="Password"
             placeholder="Password"
             icon="fi-rr-lock"
-          />
+            />
           <button
             onClick={Handlesubmit}
             className="btn-dark center mt-6"
             type="submit"
-          >
+            >
             {type.replace("-", " ")}
           </button>
 
@@ -136,6 +145,7 @@ const Login = ({ type }) => {
         </form>
       </section>
     </Pageanimation>
+          </>
   );
 };
 

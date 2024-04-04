@@ -1,34 +1,41 @@
-import Navbar from './compoents/ navbar';
-import { BrowserRouter as Router, Route,Routes} from 'react-router-dom';
-import Homepage from './pages/Homepage';
-import Login from './compoents/login';
- 
+import Navbar from "./compoents/ navbar";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Homepage from "./pages/Homepage";
+import Login from "./compoents/login";
 
 // import SIGNUP from './compoents/signup';
-import Blog from './compoents/blog';
+import Blog from "./compoents/blog";
 // import BLOGList from './compoents/bloglist';
 // import BLOGList from './compoents/bloglist';
-import Blogpage from './pages/Blogpage';
-import './App.css';
+import Blogpage from "./pages/Blogpage";
+import "./App.css";
+import { createContext, useState, useEffect } from "react";
+import { lookInsession } from "./common/session";
 
+ export const usercontext = createContext({});
 function App() {
+  const [userAuth, setuserAuth] = useState();
+
+  useEffect(() => {
+    let userInsession = lookInsession("user");
+    userInsession
+      ? setuserAuth(JSON.parse(userInsession))
+      : setuserAuth({ token: null });
+  }, []);
+  
   return (
     <Router>
-      <Navbar/>
-       <Routes>
-          <Route exact path="/" element={<Homepage/>} />
-        <Route path="/login" element={<Login type="sign-in" />} />
-        <Route path="/signup" element={<Login type="sign-up" />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path='/getblog/:uid' element={<Blogpage/>} />
-
-        
-
-        
-
+       <usercontext.Provider value={{ userAuth, setuserAuth }}>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<Homepage />} />
+          <Route path="/login" element={<Login type="sign-in" />} />
+          <Route path="/signup" element={<Login type="sign-up" />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/getblog/:uid" element={<Blogpage />} />
         </Routes>
-     </Router>
-      
+      </usercontext.Provider>
+    </Router>
   );
 }
 

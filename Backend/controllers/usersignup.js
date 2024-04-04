@@ -17,12 +17,12 @@ const formatDatatosend = (user) => {
   };
 };
 
-const generateusername = async (email) => {
+const generateusername = async (Email) => {
   try {
-    let username = email.split("@")[0];
-    let userunique = await User.exists({ personal_info: username }).then(
-      (result) => result
-    );
+    let username = Email.split("@")[0];
+    let userunique = await User.exists({
+      "personal_info,username": username,
+    }).then((result) => result);
     userunique ? (username += uid().substring(0, 5)) : "";
     return username;
   } catch (error) {
@@ -75,7 +75,7 @@ const signup =
             if (err.code == 11000) {
               return res.status(500).json({ eror: "email already exists" });
             }
-            return res.status(500).json({ "errror": err.message });
+            return res.status(500).json({ errror: err.message });
           });
       });
     } catch (error) {
