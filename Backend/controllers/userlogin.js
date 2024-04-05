@@ -7,6 +7,17 @@ const User = require("../models/usermodel");
 
 app.use(cookieParser());
 
+const formatDatatosend = (user) => {
+  console.log(user,"ok");
+  const token = jwt.sign({ Id: User._id }, "your-secret-key");
+  return {
+    token,
+    profile_img: user.personal_info.profile_img,
+    username: user.personal_info.username,
+    Fullname: user.personal_info.Fullname,
+  };
+};
+
 const login =
   ("/login",
   async (req, res) => {
@@ -19,7 +30,6 @@ const login =
           if (!user) {
             return res.status(404).json({ message: "User not found" });
           }
-
           // Compare passwords
           bcrypt.compare(
             Password,
@@ -30,10 +40,14 @@ const login =
               }
               if (!result) {
                 return res.status(401).json({ message: "Invalid password" });
+              } else {
+                return res.status(200).json(formatDatatosend(user));
               }
+
+
               // Passwords match, generate JWT token and send response
-              const token = jwt.sign({ Id: user._id }, "your-secret-key");
-              return res.status(200).json({ token });
+              // const token = jwt.sign({ Id: user._id }, "your-secret-key");
+              // return res.status(200).json({ token });
             }
           );
         })

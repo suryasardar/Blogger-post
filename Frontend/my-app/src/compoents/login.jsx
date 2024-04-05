@@ -1,5 +1,5 @@
 // Login.js
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef,useEffect} from "react";
 import { Toaster, toast } from "react-hot-toast";
 import google from "../Images/google.svg";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ const Login = ({ type }) => {
   let { userAuth, setuserAuth } = useContext(usercontext);
   const token = userAuth && userAuth.data && userAuth.data.token;
   console.log(token, "token");
+  console.log(userAuth);
 
   const userAuthThroughserver = (serverRoute, formData) => {
     axios
@@ -32,7 +33,7 @@ const Login = ({ type }) => {
       });
   };
 
-  const Handlesubmit = (e) => {
+  const Handlesubmit =  (e) => {
     e.preventDefault();
 
     let serverRoute = type === "sign-in" ? "/signin" : "/signup";
@@ -41,7 +42,13 @@ const Login = ({ type }) => {
     let emailregrex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
     let passwordregrex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 
-    let form = new FormData(DetailForm.current);
+    let formElement =  DetailForm.current;
+    if (!(formElement instanceof HTMLFormElement)) {
+        console.error('DetailForm.current does not refer to a valid HTMLFormElement');
+        return;
+    }
+
+    let form = new FormData(formElement);
     let formData = {};
     //it is created because to loop
     for (let [key, value] of form.entries()) {
@@ -70,9 +77,11 @@ const Login = ({ type }) => {
     userAuthThroughserver(serverRoute, formData);
   };
 
-  if (token) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+},[token, navigate])
   return (
     <>
       <Pageanimation keyValue={type}>
