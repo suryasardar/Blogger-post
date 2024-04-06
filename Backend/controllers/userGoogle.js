@@ -1,6 +1,7 @@
 var admin = require("firebase-admin");
 // import serviceAccountKey from "./blogger-post-eac84-firebase-adminsdk-netbc-fee6d1fd00.json";
-var serviceAccountKey = require("../blogger-post-eac84-firebase-adminsdk-netbc-fee6d1fd00.json");
+// var serviceAccountKey = require("../blogger-post-eac84-firebase-adminsdk-netbc-fee6d1fd00.json");
+const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
 
 // var getAuth = require ("firebase-admin/auth");
 const { auth } = require("firebase-admin");
