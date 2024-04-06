@@ -2,26 +2,29 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import Blog from "../Images/logo.png";
 import { usercontext } from "../App";
+import Naviagation from "./Naviagation";
 // import { DarkModeSwitch } from 'react-toggle-dark-mode';
 
 const Navbar = () => {
-  const [logged, setLogged] = useState(false);
+   
+  const [navigationopen, navigationclose] = useState(false);
   const [searchvisibility, setsearchvisibility] = useState(false);
   const { userAuth } = useContext(usercontext);
   const token = userAuth && userAuth.data && userAuth.data.token;
   const profile_img = userAuth && userAuth.data && userAuth.data.profile_img;
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setLogged(true);
-    }
-  }, []);
+ 
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setLogged(false);
-  };
+ 
+  const Handlesidebar = () => {
+    navigationclose(currentvalue => !currentvalue);
+  }
+  const Handleblur = () => {
+    setTimeout(() => {
+      navigationclose(currentvalue => !currentvalue);
+    }, 200);
+     
+   }
 
   return (
     <nav className="navbar">
@@ -49,10 +52,7 @@ const Navbar = () => {
         >
           <i className="fi fi-rr-search text-xl"></i>
         </button>
-        <Link to="/blog" className="hidden md:flex gap-2 link py-2">
-          <i className="fi fi-rr-file-edit"></i>
-          <p>write</p>
-        </Link>
+        
         {token ? (
           <>
             <Link to="">
@@ -60,11 +60,13 @@ const Navbar = () => {
               <i class="fi fi-rr-bell text-2xl block mt-1"></i>
               </button>
             </Link>
-            <div className="relative">
+            <div className="relative" onClick={Handlesidebar} onBlur={Handleblur}>
               <button className="h-12 w-12 mt-2">
-
-              <img src={profile_img} className=" w-full h-full object-cover rounded-full" />
+              <img src={profile_img}   className=" w-full h-full object-cover rounded-full" />
               </button>
+              {
+                navigationopen ?<Naviagation/>:""
+             }  
             </div>
           </>
         ) : (
