@@ -8,19 +8,19 @@ let profile_imgs_collections_list = ["notionists-neutral", "adventurer-neutral",
 const userSchema = new mongoose.Schema({
 
     personal_info: {
-        Fullname: {
+        fullname: {
             type: String,
             lowercase: true,
             required: true,
             minlength: [3, 'fullname must be 3 letters long'],
         },
-        Email: {
+        email: {
             type: String,
             required: true,
             lowercase: true,
             unique: true
         },
-        Password: String,
+        password: String,
         username: {
             type: String,
             minlength: [3, 'Username must be 3 letters long'],

@@ -13,15 +13,15 @@ const formatDatatosend = (user) => {
     token,
     profile_img: user.personal_info.profile_img,
     username: user.personal_info.username,
-    Fullname: user.personal_info.Fullname,
+    fullname: user.personal_info.fullname,
   };
 };
 
-const generateusername = async (Email) => {
+const generateusername = async (email) => {
   try {
      
 
-    let username = Email.split("@")[0];
+    let username = email.split("@")[0];
 
     let userunique = await User.exists({
       "personal_info,username": username,
@@ -37,23 +37,23 @@ const signup =
   ("/signup",
     async (req, res) => {
       try {
-        const { Fullname, Email, Password } = req.body;
-        console.log(Fullname, Email, Password);
+        const { fullname, email, password } = req.body;
+        console.log(fullname, email, password);
 
-        if (Fullname < 3) {
+        if (fullname < 3) {
           return res
             .status(403)
             .json({ error: "full name must be atleast 3 letters long" });
         }
       
-        if (!Email) {
+        if (!email) {
           return res.status(403).json({ error: "Enter Email" });
         }
-        if (!emailregrex.test(Email)) {
+        if (!emailregrex.test(email)) {
           return res.status(403).json({ error: "Email is Invalid" });
         }
      
-        if (!passwordregrex.test(Password)) {
+        if (!passwordregrex.test(password)) {
           return res.status(403).json({
             error:
               "Password must be 6 to 20 characters long with a number,1 lowercase and 1 uppercase letters",
@@ -61,15 +61,15 @@ const signup =
 
         }
       
-              bcrypt.hash(Password, 10, async (err, hashedPassword) => {
-                let username = await generateusername(Email);
+              bcrypt.hash(password, 10, async (err, hashedPassword) => {
+                let username = await generateusername(email);
                 // Create new user
         
                 const user = new User({
                   personal_info: {
-                    Fullname,
-                    Email,
-                    Password: hashedPassword,
+                    fullname,
+                    email,
+                    password: hashedPassword,
                     username,
                   },
                 });

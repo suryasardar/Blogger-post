@@ -9,12 +9,28 @@ import axios from "axios";
 import Pageanimation from "../common/Pageanimation";
 import { storeInsession } from "../common/session";
 import { usercontext } from "../App";
+import { authWithGoogle } from "../common/Firebase";
 
 const Login = ({ type }) => {
   const navigate = useNavigate();
 
   const DetailForm = useRef();
   // const DetailForm = document.querySelector("formElement");
+  const HandleGoogleAuth = (e) => {
+    e.preventDefault();
+    authWithGoogle().then(user => {
+      console.log(user);
+      let serverRoute = "/google-auth";
+      let formData = {
+        accessToken:user.accessToken
+      }
+      userAuthThroughserver(serverRoute, formData);
+    })
+      .catch(err => {
+        toast.error('trouble login through google')
+        return console.log(err);
+    })
+  }
 
   let { userAuth, setuserAuth } = useContext(usercontext);
   const token = userAuth && userAuth.data && userAuth.data.token;
@@ -55,21 +71,21 @@ const Login = ({ type }) => {
       formData[key] = value;
     }
 
-    let { Fullname, Email, Password } = formData;
+    let { fullname, email, password } = formData;
 
-    if (Fullname) {
+    if (fullname) {
       //in login the fullname will not be
-      if (!formData.Fullname||Fullname.length < 3) {
+      if (!formData.fullname||fullname.length < 3) {
         return toast.error("full name must be atleast 3 letters long");
       }
     }
-    if (!formData.Email) {
+    if (!formData.email) {
       return toast.error("Enter Email");
     }
-    if (!emailregrex.test(Email)) {
+    if (!emailregrex.test(email)) {
       return toast.error("Email is Invalid");
     }
-    if (!passwordregrex.test(Password)) {
+    if (!passwordregrex.test(password)) {
       return toast.error(
         "Password must be 6 to 20 characters long with a number,1 lowercase and 1 uppercase letters"
       );
@@ -93,7 +109,7 @@ const Login = ({ type }) => {
             </h1>
             {type !== "sign-in" ? (
               <Input
-                name="Fullname"
+                name="fullname"
                 type="text"
                 placeholder="Fullname"
                 icon="fi-rr-user"
@@ -103,13 +119,13 @@ const Login = ({ type }) => {
             )}
 
             <Input
-              name="Email"
+              name="email"
               type="email"
               placeholder="Email"
               icon="fi-rr-envelope"
             />
             <Input
-              name="Password"
+              name="password"
               type="Password"
               placeholder="Password"
               icon="fi-rr-lock"
@@ -127,7 +143,7 @@ const Login = ({ type }) => {
               <p className=" text-black  my-1">or</p>
               <hr className="w-1/2 my-1 border-black" />
             </div>
-            <button className="btn-dark center flex items-center justify-center gap-3   w-[80%]">
+            <button className="btn-dark center flex items-center justify-center gap-3   w-[80%]" onClick={HandleGoogleAuth}>
               <img src={google} alt="google" className="w-6" />
               Continue with Google
             </button>

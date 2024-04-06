@@ -8,32 +8,30 @@ const User = require("../models/usermodel");
 app.use(cookieParser());
 
 const formatDatatosend = (user) => {
-  console.log(user,"ok");
+  
   const token = jwt.sign({ Id: User._id }, "your-secret-key");
   return {
     token,
     profile_img: user.personal_info.profile_img,
     username: user.personal_info.username,
-    Fullname: user.personal_info.Fullname,
+    fullname: user.personal_info.fullname,
   };
 };
 
-const login =
-  ("/login",
-  async (req, res) => {
+const login =("/login",async (req, res) => {
     try {
-      const { Email, Password } = req.body;
+      const { email, password } = req.body;
 
       // Find user by email
-      User.findOne({ "personal_info.Email": Email })
+      User.findOne({ "personal_info.email": email })
         .then((user) => {
           if (!user) {
             return res.status(404).json({ message: "User not found" });
           }
           // Compare passwords
           bcrypt.compare(
-            Password,
-            user.personal_info.Password,
+            password,
+            user.personal_info.password,
             (err, result) => {
               if (err) {
                 return res.status(404).json({ error: "Please try again" });
