@@ -25,13 +25,13 @@ const formatDatatosend = (user) => {
     token,
     profile_img: user.personal_info.profile_img,
     username: user.personal_info.username,
-    Fullname: user.personal_info.Fullname,
+    fullname: user.personal_info.fullname,
   };
 };
 
-const generateusername = async (Email) => {
+const generateusername = async (email) => {
   try {
-    let username = Email.split("@")[0];
+    let username = email.split("@")[0];
 
     let userunique = await User.exists({
       "personal_info,username": username,
@@ -104,22 +104,27 @@ const GoogleAuth = async (req, res) => {
         const { accessToken } = req.body;
         // const accessToken = currentUser.accessToken;
 
-        console.log(accessToken,"oktoken");
+      console.log(accessToken, "oktoken");
+      
       const decodeUser = await auth().verifyIdToken(accessToken);
-        const { email, name, picture } = decodeUser;
-        console.log(email,picture,"okemail");
-        const pictureUrl = picture.replace("s96-c", "s384-c");
+
+      const { email, name, picture } = decodeUser;
+      
+      console.log(email, picture, "okemail");
+      
+      const pictureUrl = picture.replace("s96-c", "s384-c");
+      
         if (!email) {
             return res.status(400).json({ error: "Email is required" });
           }
   
-      let user = await User.findOne({ "personal_info.Email": email }).select("personal_info.Fullname personal_info.username personal_info.profile_img google_auth");
+      let user = await User.findOne({ "personal_info.email": email }).select("personal_info.fullname personal_info.username personal_info.profile_img google_auth");
   
       if (!user) {
         // If user does not exist, create a new user
         const username = await generateusername(email);
         user = new User({
-          personal_info: { Fullname: name, profile_img: pictureUrl, username },
+          personal_info: { fullname: name, profile_img: pictureUrl, username },
           google_auth: true,
         });
         await user.save();
