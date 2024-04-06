@@ -1,7 +1,14 @@
 var admin = require("firebase-admin");
-// import serviceAccountKey from "./blogger-post-eac84-firebase-adminsdk-netbc-fee6d1fd00.json";
-// var serviceAccountKey = require("../blogger-post-eac84-firebase-adminsdk-netbc-fee6d1fd00.json");
-const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
+// import serviceAccountKey from "../blogger-post-eac84-firebase-adminsdk-netbc-fee6d1fd00.json";
+var serviceAccountKey = require("../blogger-post-eac84-firebase-adminsdk-netbc-fee6d1fd00.json");
+// // const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
+// let serviceAccountKey;
+// if (process.env.SERVICE_ACCOUNT_KEY) {
+//     serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
+// } else {
+//     console.error('SERVICE_ACCOUNT_KEY environment variable is not set.');
+//     // Handle this case accordingly, e.g., provide a default value or exit the process
+// }
 
 // var getAuth = require ("firebase-admin/auth");
 const { auth } = require("firebase-admin");

@@ -41,11 +41,6 @@ const login =("/login",async (req, res) => {
               } else {
                 return res.status(200).json(formatDatatosend(user));
               }
-
-
-              // Passwords match, generate JWT token and send response
-              // const token = jwt.sign({ Id: user._id }, "your-secret-key");
-              // return res.status(200).json({ token });
             }
           );
         })
@@ -59,11 +54,6 @@ const login =("/login",async (req, res) => {
     }
   });
 
-// Generate JWT token
-// const token = jwt.sign({ userId: user._id }, "your-secret-key");
-
-// res.cookie('token', token, { httpOnly: true });
-
-// res.json({ token });
+ 
 
 module.exports = login;
