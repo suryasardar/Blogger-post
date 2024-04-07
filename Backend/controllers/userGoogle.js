@@ -1,16 +1,7 @@
 var admin = require("firebase-admin");
-// import serviceAccountKey from "../blogger-post-eac84-firebase-adminsdk-netbc-fee6d1fd00.json";
+ 
 var serviceAccountKey = require("../blogger-post-eac84-firebase-adminsdk-netbc-fee6d1fd00.json");
-// // const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
-// let serviceAccountKey;
-// if (process.env.SERVICE_ACCOUNT_KEY) {
-//     serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
-// } else {
-//     console.error('SERVICE_ACCOUNT_KEY environment variable is not set.');
-//     // Handle this case accordingly, e.g., provide a default value or exit the process
-// }
 
-// var getAuth = require ("firebase-admin/auth");
 const { auth } = require("firebase-admin");
  
 const User = require("../models/usermodel");
@@ -43,61 +34,6 @@ const generateusername = async (email) => {
   }
 };
 
-// const GoogleAuth =
-//   ("/google-auth",
-//   async (req, res) => {
-//     let { access_token } = req.body;
-//     getAuth()
-//       .verifyIdToken(access_token)
-//       .then(async (decodeUser) => {
-//         let { email, name, picture } = decodeUser;
-//         picture = picture.replace("s96-c", "s384-c");
-//         let user = await User.findOne({ "personal_info.Email": email })
-//           .select(
-//             "personal_info.Fullname personal_info.username personal_info.profile_img google_auth"
-//           )
-//           .them((u) => {
-//             return u || null;
-//           })
-//           .catch((err) => {
-//             return res.status(500).json({ error: err.message });
-//           });
-
-//         if (user) {
-//           if (!user.google_auth) {
-//             return res
-//               .status(403)
-//               .json({
-//                 error:
-//                   "This email was signed up without google.please login with password to access the account",
-//               });
-//           }
-//         } else {
-//           let username = await generateusername(email);
-//           user = new User({
-//             personal_info: { Fullname: name, profile_img: picture, username },
-//             google_auth: true,
-//           });
-//           await user
-//             .save()
-//             .then((u) => {
-//               user = u;
-//             })
-//             .catch((err) => {
-//               return res.status(500).json({ error: err.message });
-//             });
-//         }
-//         return res.status(200).json(formatDatatosend(user));
-//       })
-//       .catch((err) => {
-//         return res
-//           .status(500)
-//           .json({
-//             error:
-//               "Failed to autenticate you with google.try with some other google account",
-//           });
-//       });
-//         });
   
 const GoogleAuth = async (req, res) => {
     try {
@@ -110,14 +46,14 @@ const GoogleAuth = async (req, res) => {
 
       const { email, name, picture } = decodeUser;
       
-      console.log(email, picture, "okemail");
+      
       
       const pictureUrl = picture.replace("s96-c", "s384-c");
       
         if (!email) {
             return res.status(400).json({ error: "Email is required" });
           }
-  
+       console.log("personal_info.emial");
       let user = await User.findOne({ "personal_info.email": email }).select("personal_info.fullname personal_info.username personal_info.profile_img google_auth");
   
       if (!user) {
@@ -133,7 +69,6 @@ const GoogleAuth = async (req, res) => {
           error: "This email was signed up without Google. Please login with password to access the account",
         });
       }
-  
       return res.status(200).json(formatDatatosend(user));
     } catch (error) {
       console.error("Failed to authenticate you with Google", error);

@@ -21,7 +21,7 @@ const Navbar = () => {
   }
   const Handleblur = () => {
     setTimeout(() => {
-      navigationclose(currentvalue => !currentvalue);
+      navigationclose(false);
     }, 200);
      
    }

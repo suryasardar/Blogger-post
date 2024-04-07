@@ -126,7 +126,7 @@ const Login = ({ type }) => {
             />
             <Input
               name="password"
-              type="Password"
+              type="password"
               placeholder="Password"
               icon="fi-rr-lock"
             />

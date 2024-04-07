@@ -11,7 +11,7 @@ function Naviagation() {
 
   const Signoutuser = () => {
     removeInsession("user");
-    const token=userAuth && userAuth.data && userAuth.data.token;
+    // const token=userAuth && userAuth.data && userAuth.data.token;
     setuserAuth(null);
   }
   return (
@@ -20,21 +20,21 @@ function Naviagation() {
       transition={{ duration: 0.2 }}
     >
       <div className=" bg-white  absolute right-0 border border-grey w-60   duration-200">
-        <Link to="/editor" className="flex   link gap-2 pt-2 pb-1 pl-0  ">
+        <Link to="/editor" className="flex   link gap-2 pt-2 pb-1 pl-8  ">
           <i className="fi fi-rr-file-edit"></i>
           <p>write</p>
         </Link>
-        <Link to={`/user/${username}`} className="link py-2 pl-0 ">
+        <Link to={`/user/${username}`} className="link py-2 pl-8 ">
           profile
         </Link>
-        <Link to="/dashboard/blogs" className="link py-2 pl-0">
+        <Link to="/dashboard/blogs" className="link py-2 pl-8">
           <p>Dashboard</p>
         </Link>
-        <Link to="settings" className="link py-2 pl-0">
+        <Link to="settings" className="link py-2 pl-8">
           <p>Settings</p>
         </Link>
         <span className="absolte border-t border-grey  w-[100%]"></span>
-        <button className="text-left w-full py-2 hover:bg-grey" onClick={Signoutuser}>
+        <button className="text-left w-full  pl-8 py-2 hover:bg-grey" onClick={Signoutuser}>
           <h6 className="font-bold text-xl mg-1">Signout</h6>
           <p>@{username}</p>
         </button>
