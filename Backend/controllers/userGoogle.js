@@ -40,7 +40,7 @@ const GoogleAuth = async (req, res) => {
         const { accessToken } = req.body;
         // const accessToken = currentUser.accessToken;
 
-      console.log(accessToken, "oktoken");
+      // console.log(accessToken, "oktoken");
       
       const decodeUser = await auth().verifyIdToken(accessToken);
 
@@ -53,9 +53,9 @@ const GoogleAuth = async (req, res) => {
         if (!email) {
             return res.status(400).json({ error: "Email is required" });
           }
-       console.log("personal_info.emial");
+      //  console.log(personal_info.email,"Email");
       let user = await User.findOne({ "personal_info.email": email }).select("personal_info.fullname personal_info.username personal_info.profile_img google_auth");
-  
+        console.log(user,"user");
       if (!user) {
         // If user does not exist, create a new user
         const username = await generateusername(email);
