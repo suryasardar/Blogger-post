@@ -8,7 +8,6 @@ const User = require("../models/usermodel");
 app.use(cookieParser());
 
 const formatDatatosend = (user) => {
-  
   const token = jwt.sign({ Id: User._id }, "your-secret-key");
   return {
     token,
@@ -18,7 +17,9 @@ const formatDatatosend = (user) => {
   };
 };
 
-const login =("/login",async (req, res) => {
+const login =
+  ("/login",
+  async (req, res) => {
     try {
       const { email, password } = req.body;
 
@@ -28,21 +29,26 @@ const login =("/login",async (req, res) => {
           if (!user) {
             return res.status(404).json({ message: "User not found" });
           }
+
+          if (!user.google_auth) {
+            bcrypt.compare(
+              password,
+              user.personal_info.password,
+              (err, result) => {
+                if (err) {
+                  return res.status(404).json({ error: "Please try again" });
+                }
+                if (!result) {
+                  return res.status(401).json({ message: "Invalid password" });
+                } else {
+                  return res.status(200).json(formatDatatosend(user));
+                }
+              }
+            );
+          } else {
+            return res.status(403).json({"error":"account was created using google.Try logging in with google"})
+          }
           // Compare passwords
-          bcrypt.compare(
-            password,
-            user.personal_info.password,
-            (err, result) => {
-              if (err) {
-                return res.status(404).json({ error: "Please try again" });
-              }
-              if (!result) {
-                return res.status(401).json({ message: "Invalid password" });
-              } else {
-                return res.status(200).json(formatDatatosend(user));
-              }
-            }
-          );
         })
         .catch((error) => {
           console.error("Error logging in:", error);
@@ -53,7 +59,5 @@ const login =("/login",async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
     }
   });
-
- 
 
 module.exports = login;
