@@ -12,6 +12,7 @@ const Navbar = () => {
   const { userAuth } = useContext(usercontext);
   const token = userAuth && userAuth.data && userAuth.data.token;
   const profile_img = userAuth && userAuth.data && userAuth.data.profile_img;
+  console.log(profile_img,"ok");
 
  
 
@@ -62,7 +63,10 @@ const Navbar = () => {
             </Link>
             <div className="relative" onClick={Handlesidebar} onBlur={Handleblur}>
               <button className="h-12 w-12 mt-2">
-              <img src={profile_img}   className=" w-full h-full object-cover rounded-full" />
+              {profile_img && (
+  <img src={profile_img} className="w-full h-full object-cover rounded-full" />
+)}
+
               </button>
               {
                 navigationopen ?<Naviagation/>:""
