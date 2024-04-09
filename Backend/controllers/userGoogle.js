@@ -1,10 +1,8 @@
 var admin = require("firebase-admin");
- 
 var serviceAccountKey = require("../blogger-post-eac84-firebase-adminsdk-netbc-fee6d1fd00.json");
-
 const { auth } = require("firebase-admin");
- 
 const User = require("../models/usermodel");
+const jwt = require("jsonwebtoken");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccountKey),
@@ -38,38 +36,38 @@ const generateusername = async (email) => {
 const GoogleAuth = async (req, res) => {
     try {
         const { accessToken } = req.body;
-        // const accessToken = currentUser.accessToken;
-
       // console.log(accessToken, "oktoken");
-      
       const decodeUser = await auth().verifyIdToken(accessToken);
 
       const { email, name, picture } = decodeUser;
-      
-      
-      
       const pictureUrl = picture.replace("s96-c", "s384-c");
       
         if (!email) {
             return res.status(400).json({ error: "Email is required" });
           }
       //  console.log(personal_info.email,"Email");
-      let user = await User.findOne({ "personal_info.email": email }).select("personal_info.fullname personal_info.username personal_info.profile_img google_auth");
+      let user = await User.findOne({ "personal_info.email": email }).select("personal_info.fullname personal_info.username personal_info.profile_img google_auth").then((u) => {
+        return u || null
+      })
+        .catch((err) => {
+        return res.status(500).json({"error":err.message})
+      })
         console.log(user,"user");
-      if (!user) {
-        // If user does not exist, create a new user
-        const username = await generateusername(email);
-        user = new User({
-          personal_info: { fullname: name, profile_img: pictureUrl, username },
-          google_auth: true,
-        });
-        await user.save();
-      } else if (!user.google_auth) {
-        return res.status(403).json({
-          error: "This email was signed up without Google. Please login with password to access the account",
-        });
-      }
-      return res.status(200).json(formatDatatosend(user));
+      if (user) {
+        if (!user.google_auth) {
+           return res.status(403).json({"error":"this email was signed up without google.Please log in eith password to access the account"})
+          }  
+        } else {
+          
+          // If user does not exist, create a new user
+          const username = await generateusername(email);
+          user = new User({
+            personal_info: { fullname: name,email,  profile_img: pictureUrl, username },
+            google_auth: true,
+          });
+          await user.save();
+        }
+          return res.status(200).json(formatDatatosend(user));
     } catch (error) {
       console.error("Failed to authenticate you with Google", error);
       return res.status(500).json({ error: "Failed to authenticate you with Google. Please try with another Google account." });
