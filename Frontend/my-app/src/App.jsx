@@ -2,15 +2,12 @@ import Navbar from "./compoents/ navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Login from "./compoents/login";
-
-// import SIGNUP from './compoents/signup';
-import Blog from "./compoents/blog";
-// import BLOGList from './compoents/bloglist';
-// import BLOGList from './compoents/bloglist';
+import Blog from "./compoents/ Blogeditor";
 import Blogpage from "./pages/Blogpage";
 import "./App.css";
 import { createContext, useState, useEffect } from "react";
 import { lookInsession } from "./common/session";
+import Editorpage from "./pages/Editorpage";
 
  export const usercontext = createContext({});
 function App() {
@@ -31,7 +28,8 @@ function App() {
           <Route exact path="/" element={<Homepage />} />
           <Route path="/login" element={<Login type="sign-in" />} />
           <Route path="/signup" element={<Login type="sign-up" />} />
-          <Route path="/blog" element={<Blog />} />
+          <Route path="/editor" element={<Editorpage/>}/>
+         
           <Route path="/getblog/:uid" element={<Blogpage />} />
         </Routes>
       </usercontext.Provider>

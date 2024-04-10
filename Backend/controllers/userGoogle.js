@@ -52,7 +52,7 @@ const GoogleAuth = async (req, res) => {
         .catch((err) => {
         return res.status(500).json({"error":err.message})
       })
-        console.log(user,"user");
+        // console.log(user,"user");
       if (user) {
         if (!user.google_auth) {
            return res.status(403).json({"error":"this email was signed up without google.Please log in eith password to access the account"})

@@ -1,31 +1,26 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
+import { useState,useContext } from "react";
 import Blog from "../Images/logo.png";
 import { usercontext } from "../App";
 import Naviagation from "./Naviagation";
 // import { DarkModeSwitch } from 'react-toggle-dark-mode';
 
 const Navbar = () => {
-   
   const [navigationopen, navigationclose] = useState(false);
   const [searchvisibility, setsearchvisibility] = useState(false);
   const { userAuth } = useContext(usercontext);
   const token = userAuth && userAuth.data && userAuth.data.token;
   const profile_img = userAuth && userAuth.data && userAuth.data.profile_img;
-  console.log(profile_img,"ok");
+  console.log(profile_img, "ok");
 
- 
-
- 
   const Handlesidebar = () => {
-    navigationclose(currentvalue => !currentvalue);
-  }
+    navigationclose((currentvalue) => !currentvalue);
+  };
   const Handleblur = () => {
     setTimeout(() => {
       navigationclose(false);
     }, 200);
-     
-   }
+  };
 
   return (
     <nav className="navbar">
@@ -53,24 +48,28 @@ const Navbar = () => {
         >
           <i className="fi fi-rr-search text-xl"></i>
         </button>
-        
+
         {token ? (
           <>
             <Link to="">
               <button className="w-12 h-12 rounded-full bg-grey relative hover:bg-black/10">
-              <i class="fi fi-rr-bell text-2xl block mt-1"></i>
+                <i class="fi fi-rr-bell text-2xl block mt-1"></i>
               </button>
             </Link>
-            <div className="relative" onClick={Handlesidebar} onBlur={Handleblur}>
+            <div
+              className="relative"
+              onClick={Handlesidebar}
+              onBlur={Handleblur}
+            >
               <button className="h-12 w-12 mt-2">
-              {profile_img && (
-  <img src={profile_img} className="w-full h-full object-cover rounded-full" />
-)}
-
+                {profile_img && (
+                  <img
+                    src={profile_img} alt="DP"
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                )}
               </button>
-              {
-                navigationopen ?<Naviagation/>:""
-             }  
+              {navigationopen ? <Naviagation /> : ""}
             </div>
           </>
         ) : (
