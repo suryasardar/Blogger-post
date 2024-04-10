@@ -22,13 +22,15 @@ function App() {
   return (
     <Router>
       <usercontext.Provider value={{ userAuth, setuserAuth }}>
+       {/* <Navbar/> */}
         <Routes>
           <Route path="/editor" element={<Editorpage />} />
-          <Route path="/" element={<Navbar />}/>
+          <Route path="/" element={<Navbar />}>
             <Route exact path="/" element={<Homepage />} />
-            <Route path="/login" element={<Login type="sign-in" />} />
-            <Route path="/signup" element={<Login type="sign-up" />} />
-         
+            <Route path="login" element={<Login type="sign-in" />} />
+            <Route path="signup" element={<Login type="sign-up" />} />
+            <Route path="/getblog/:uid" element={<Blogpage />} />
+          </Route>
         </Routes>
       </usercontext.Provider>
     </Router>

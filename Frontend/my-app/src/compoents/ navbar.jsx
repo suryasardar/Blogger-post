@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link ,Outlet} from "react-router-dom";
 import { useState,useContext } from "react";
 import Blog from "../Images/logo.png";
 import { usercontext } from "../App";
@@ -23,7 +23,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
+    <>
+       <nav className="navbar">
       <Link to="/" className="flex-none w-10 pl-2">
         <img src={Blog} alt="BLOG" className="w-full" />
       </Link>
@@ -74,16 +75,19 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <Link className="btn-dark py-2" to="/login">
+            <Link className="btn-dark py-2" to="login">
               Sign In
             </Link>
-            <Link className="btn-light  py-2 hidden md:block" to="/signup">
+            <Link className="btn-light  py-2 hidden md:block" to="signup">
               Sign Up
             </Link>
           </>
         )}
       </div>
-    </nav>
+      </nav>
+      <Outlet/>
+    </>
+    
   );
 };
 
