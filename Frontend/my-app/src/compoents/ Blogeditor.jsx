@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import PageAnimation from "../common/Pageanimation";
 import defaultimage from "../Images/blogbanner.jpg"
 
+
 const Blogeditor = () => {
 
     const Handlechange = (e) => {
@@ -30,8 +31,8 @@ const Blogeditor = () => {
               <section>
                   <div className="max-auto  max-w-[900px] w-full">
                       <div className=" relative aspect-video hover:opacity-80 bg-white border-4 border-grey">
-                          <label htmlFor="uploadBanner">
-                              <img src={defaultimage}  alt="BlogBanner" className="z-20"/>
+                          <label htmlFor="uploadBanner" className="h-full">
+                              <img src={defaultimage}  alt="BlogBanner" className="z-20 "/>
                               <input
                                   type="file"
                                   id="uploadBanner"
