@@ -26,7 +26,7 @@ const Editorpage = () => {
   return (
     <EditorContext.Provider value={{Blogger,setBlogger,editorstate,seteditorstate}}>
 
-      {token == null ? Naviagate("/login") : editorstate == 'editor' ? <Blogeditor /> : <Publishform />}
+      {token === null ? Naviagate("/login") : editorstate === 'editor' ? <Blogeditor /> : <Publishform />}
     </EditorContext.Provider>
   )
    
