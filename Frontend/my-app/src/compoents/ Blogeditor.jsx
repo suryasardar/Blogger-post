@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useRef } from "react";
 import Blog from "../Images/logo.png";
 import { Link } from "react-router-dom";
 import PageAnimation from "../common/Pageanimation";
 import defaultimage from "../Images/blogbanner.jpg"
+import aws from "../common/aws";
+import toast from "react-hot-toast";
 
 
 const Blogeditor = () => {
-
+  let blogbanner = useRef();
     const Handlechange = (e) => {
         let imgs = e.target.files[0];
-        console.log(imgs);
+      if (imgs){
+        let loadingToast=toast.loading("uploading..")
+        aws(imgs).then((url) => {
+          if (url) {
+            toast.dismiss(loadingToast)
+            blogbanner.current.src = url;
+          }
+        })
+      }
 
     }
   return (
@@ -32,7 +42,7 @@ const Blogeditor = () => {
                   <div className="max-auto  max-w-[900px] w-full">
                       <div className=" relative aspect-video hover:opacity-80 bg-white border-4 border-grey">
                           <label htmlFor="uploadBanner" className="h-full">
-                              <img src={defaultimage}  alt="BlogBanner" className="z-20 "/>
+                <img ref={blogbanner} src={defaultimage}  alt="BlogBanner" className="z-20 "/>
                               <input
                                   type="file"
                                   id="uploadBanner"
