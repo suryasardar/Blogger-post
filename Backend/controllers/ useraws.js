@@ -29,7 +29,7 @@ const generateURL = async () => {
           Expires: 1000,
           ContentType: "image/jpg",
       } );
-    console.log("Generated signed URL:", url);
+    // console.log("Generated signed URL:", url);
     return url;
   } catch (error) {
     console.error("Error generating URL:", error);

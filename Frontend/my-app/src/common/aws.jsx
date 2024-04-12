@@ -1,7 +1,8 @@
  
 import axios from "axios"
 
-const aws= async (img)=> {
+const aws = async (img) => {
+    console.log(img,"image");
     let imageUrl = null;
     await axios.get("http://localhost:4000/api/user/get-upload-url").then(async ({ data: uploadurl }) => {
         console.log(uploadurl.uploadurl);
@@ -9,7 +10,7 @@ const aws= async (img)=> {
             method:"PUT",
             url: uploadurl.uploadurl,
             headers: { 'Content-Type': 'image/jpg', },
-            data:img
+            body:img
         }).then(() => {
             imageUrl = uploadurl.uploadurl.split("?")[0]
             console.log(imageUrl,"osfd");

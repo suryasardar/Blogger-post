@@ -25,8 +25,8 @@ const Blogeditor = () => {
   return (
     <>
       <nav className="navbar">
-        <Link className=" ml-1 flex-none w-10">
-          <img src={Blog} />
+        <Link to='/' className=" ml-1 flex-none w-10">
+          <img src={Blog} alt="logo"/>
         </Link>
         <p className="max-md:hidden text-black line-clamp-1 w-full">
           {" "}
@@ -42,7 +42,7 @@ const Blogeditor = () => {
                   <div className="max-auto  max-w-[900px] w-full">
                       <div className=" relative aspect-video hover:opacity-80 bg-white border-4 border-grey">
                           <label htmlFor="uploadBanner" className="h-full">
-                <img ref={blogbanner} src={defaultimage}  alt="BlogBanner" className="z-20 "/>
+                <img ref={blogbanner} src={defaultimage}  alt="Blogimg" className="z-20 "/>
                               <input
                                   type="file"
                                   id="uploadBanner"
