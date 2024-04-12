@@ -7,6 +7,7 @@ import aws from "../common/aws";
 import toast from "react-hot-toast";
 import EditorJS from '@editorjs/editorjs';
 import { EditorContext } from "../pages/Editorpage";
+import { tools } from "./tool";
 
 const Blogeditor = () => {
   let {
@@ -20,7 +21,7 @@ const Blogeditor = () => {
     let editor = new EditorJS({
       holderId: "textEditor",
       data: '',
-      
+      tools:tools,
       placeholder:"lets write an awesome story"
     })
   }, [])
