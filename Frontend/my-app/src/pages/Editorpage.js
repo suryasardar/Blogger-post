@@ -18,13 +18,15 @@ const Editorpage = () => {
 
   const [Blogger, setBlogger] = useState(Blogstructure);
   const [editorstate, seteditorstate] = useState("editor");
+  const [textEditor, settextEditor] = useState({ isReady: false});
+
     const Naviagate = useNavigate();
     const { userAuth } = useContext(usercontext);
     const token = userAuth && userAuth.data && userAuth.data.token;
   console.log(token, "surya");
   
   return (
-    <EditorContext.Provider value={{Blogger,setBlogger,editorstate,seteditorstate}}>
+    <EditorContext.Provider value={{Blogger,setBlogger,editorstate,seteditorstate,textEditor,settextEditor}}>
 
       {token === null ? Naviagate("/login") : editorstate === 'editor' ? <Blogeditor /> : <Publishform />}
     </EditorContext.Provider>

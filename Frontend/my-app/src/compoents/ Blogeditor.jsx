@@ -5,7 +5,7 @@ import PageAnimation from "../common/Pageanimation";
 import defaultimage from "../Images/blogbanner.jpg";
 import aws from "../common/aws";
 import toast from "react-hot-toast";
-import EditorJS from '@editorjs/editorjs';
+import EditorJS from "@editorjs/editorjs";
 import { EditorContext } from "../pages/Editorpage";
 import { tools } from "./tool";
 
@@ -14,25 +14,27 @@ const Blogeditor = () => {
     Blogger,
     Blogger: { title, banner, content, tags, des },
     setBlogger,
+    textEditor,
+    settextEditor,
   } = useContext(EditorContext);
   // console.log(blogger);
 
   useEffect(() => {
-    let editor = new EditorJS({
-      holderId: "textEditor",
-      data: '',
-      tools:tools,
-      placeholder:"lets write an awesome story"
-    })
-  }, [])
-  
+    settextEditor(
+      new EditorJS({
+        holderId: "textEditor",
+        data: "",
+        tools: tools,
+        placeholder: "lets write an awesome story",
+      })
+    );
+  }, []);
 
   const Handletitlekeydown = (e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
     }
   };
-
 
   const Handlechangetext = (e) => {
     let input = e.target;
@@ -41,6 +43,24 @@ const Blogeditor = () => {
     setBlogger({ ...Blogger, title: input.value });
   };
 
+
+  const Handlepublish = () => {
+    
+    if (!banner.length) {
+      return toast.error("upload the Image")
+    }
+    if (!title.length) {
+      return toast.error("write down the Title")
+    }
+    if (textEditor.isReady) {
+      textEditor.save().then(data => {
+        console.log(data);
+        if (data.blocks.length) {
+          setBlogger({ ...Blogger, content: data })
+        }
+      })
+    }
+  }
 
   const Handlechange = (e) => {
     let imgs = e.target.files[0];
@@ -72,7 +92,7 @@ const Blogeditor = () => {
             {" "}
             {title.length ? title : "New Blog"}
           </p>
-          <button className="btn-dark py-2 ">publish</button>
+          <button className="btn-dark py-2 " onClick={Handlepublish}>publish</button>
           <button className="btn-light py-2 "> save Draft</button>
         </div>
       </nav>
@@ -102,10 +122,7 @@ const Blogeditor = () => {
               onChange={Handlechangetext}
             ></textarea>
             <hr className="w-full opacity-10 my-4" />
-            <div className="font-gelasio" id="textEditor">
-
-               
-            </div>
+            <div className="font-gelasio" id="textEditor"></div>
           </div>
         </section>
       </PageAnimation>
