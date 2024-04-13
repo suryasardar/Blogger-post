@@ -72,7 +72,7 @@ const Blogeditor = () => {
             toast.dismiss(loadingToast);
             toast.success("uploaded");
             setBlogger({ ...Blogger, banner: url });
-          }
+          };
         })
         .catch((err) => {
           toast.dismiss(loadingToast);
