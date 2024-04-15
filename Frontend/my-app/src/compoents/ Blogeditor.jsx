@@ -45,21 +45,30 @@ const Blogeditor = () => {
 
 
   const Handlepublish = () => {
+    console.log("in publish")
+    console.log(banner,title)
+    try {
+      if (!banner.length) {
+        return toast.error("upload the Image")
+      }
+      if (!title.length) {
+        return toast.error("write down the Title")
+      }
+      if (textEditor.isReady) {
+        console.log("call")
+        textEditor.save().then(data => {
+          console.log(data);
+          if (data.blocks.length) {
+            setBlogger({ ...Blogger, content: data })
+          }
+        })
+      }
+      console.log("call2")
+    } catch (error) {
+      console.log("error",error)
+    }
+  
     
-    if (!banner.length) {
-      return toast.error("upload the Image")
-    }
-    if (!title.length) {
-      return toast.error("write down the Title")
-    }
-    if (textEditor.isReady) {
-      textEditor.save().then(data => {
-        console.log(data);
-        if (data.blocks.length) {
-          setBlogger({ ...Blogger, content: data })
-        }
-      })
-    }
   }
 
   const Handlechange = (e) => {
@@ -92,7 +101,7 @@ const Blogeditor = () => {
             {" "}
             {title.length ? title : "New Blog"}
           </p>
-          <button className="btn-dark py-2 " onClick={Handlepublish}>publish</button>
+          <button className="btn-dark py-2 " onClick={Handlepublish} >publish</button>
           <button className="btn-light py-2 "> save Draft</button>
         </div>
       </nav>
