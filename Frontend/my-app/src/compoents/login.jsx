@@ -15,6 +15,7 @@ const Login = ({ type }) => {
   const navigate = useNavigate();
 
   const DetailForm = useRef();
+   
   // const DetailForm = document.querySelector("formElement");
   const HandleGoogleAuth = (e) => {
     e.preventDefault();
@@ -42,6 +43,7 @@ const Login = ({ type }) => {
       .post("http://localhost:4000/api/user" + serverRoute, formData)
       .then((data) => {
         storeInsession("user", JSON.stringify(data));
+        console.log();
         setuserAuth(data);
       })
       .catch(({ response }) => {
@@ -58,7 +60,8 @@ const Login = ({ type }) => {
     let emailregrex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
     let passwordregrex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 
-    let formElement =  DetailForm.current;
+    let formElement = DetailForm.current;
+  
     if (!(formElement instanceof HTMLFormElement)) {
         console.error('DetailForm.current does not refer to a valid HTMLFormElement');
         return;

@@ -71,15 +71,13 @@ const signup =
               username,
             },
           });
-          console.log(user, "ok");
-          user
-            .save()
-            .then((u) => {
+          user.save().then((u) => {
+            console.log(u, "ok");
               return res.status(200).json(formatDatatosend(u));
             })
             .catch((err) => {
               if (err.code == 11000) {
-                return res.status(500).json({ error: "email already exists" });
+                return res.status(409).json({ error: "email already exists" });
               }
               return res.status(500).json({ errror: err.message });
             });
@@ -92,3 +90,89 @@ const signup =
   });
 
 module.exports = signup;
+
+
+// const express = require('express');
+// const router = express.Router();
+// const User = require("../models/usermodel"); // Import the User model
+// const bcrypt = require("bcrypt");
+// const jwt = require("jsonwebtoken");
+// const uid = require("uuid");
+
+// const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+// const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+
+// const generateUsername = async (email) => {
+//   let username = email.split("@")[0];
+//   let userExists = await User.exists({ "personal_info.username": username });
+//   if (userExists) {
+//     username += uid().substring(0, 5);
+//   }
+//   return username;
+// };
+
+// const formatDataToSend = (user) => {
+//   const token = jwt.sign({ Id: user._id },"your-secret-key");
+//   return {
+//     token,
+//     profile_img: user.personal_info.profile_img,
+//     username: user.personal_info.username,
+//     fullname: user.personal_info.fullname,
+//   };
+// };
+
+// const signup=('/signup', async (req, res) => {
+//   try {
+//     const { fullname, email, password } = req.body;
+
+//     // Validate input data
+//     if (fullname.length < 3) {
+//       return res.status(400).json({ error: "Full name must be at least 3 characters long" });
+//     }
+
+//     if (!email || !emailRegex.test(email)) {
+//       return res.status(400).json({ error: "Invalid email format" });
+//     }
+
+//     if (!passwordRegex.test(password)) {
+//       return res.status(400).json({
+//         error: "Password must be 6 to 20 characters long with at least one number, one lowercase, and one uppercase letter",
+//       });
+//     }
+     
+
+//     // Check if email already exists
+//     const existingUser = await User.findOne({ "personal_info.email_1": email });
+//     if (existingUser) {
+//       return res.status(409).json({ error: "Email already exists" });
+//     }
+
+//     // Generate username
+//     const username = await generateUsername(email);
+
+//     // Hash password
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     // Create new user
+//     const newUser = new User({
+//       personal_info: {
+//         fullname,
+//         email,
+//         password: hashedPassword,
+//         username,
+//       },
+//     });
+
+//     // Save user to database
+//     const savedUser = await newUser.save();
+
+//     // Format data and send response
+//     return res.status(201).json(formatDataToSend(savedUser));
+//   } catch (error) {
+//     console.error("Error signing up:", error);
+//     return res.status(500).json({ error: "Internal server error" });
+//   }
+// });
+
+// module.exports = signup;
+

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import PageAnimation from "../common/Pageanimation";
 import defaultimage from "../Images/blogbanner.jpg";
 import aws from "../common/aws";
-import toast from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import EditorJS from "@editorjs/editorjs";
 import { EditorContext } from "../pages/Editorpage";
 import { tools } from "./tool";
@@ -20,14 +20,19 @@ const Blogeditor = () => {
   // console.log(blogger);
 
   useEffect(() => {
-    settextEditor(
-      new EditorJS({
-        holderId: "textEditor",
-        data: "",
-        tools: tools,
-        placeholder: "lets write an awesome story",
-      })
-    );
+    const Instance = new EditorJS({
+      holder: "textEditor",
+      data: "",
+      tools: tools,
+      placeholder: "lets write an awesome story",
+    });
+    Instance.isReady.then(() => {
+      Instance.isReady = true;
+      settextEditor(Instance);
+    });
+    // return () => {
+    //   Instance.destroy();
+    // };
   }, []);
 
   const Handletitlekeydown = (e) => {
@@ -43,33 +48,31 @@ const Blogeditor = () => {
     setBlogger({ ...Blogger, title: input.value });
   };
 
-
-  const Handlepublish = () => {
-    console.log("in publish")
-    console.log(banner,title)
+  const Handlepublish = (e) => {
+    //  console.log(e);
+    console.log(banner, title);
     try {
-      if (!banner.length) {
-        return toast.error("upload the Image")
-      }
-      if (!title.length) {
-        return toast.error("write down the Title")
-      }
-      if (textEditor.isReady) {
-        console.log("call")
-        textEditor.save().then(data => {
-          console.log(data);
+      // if (!banner.length) {
+      //   return toast.error("upload the Image")
+      // }
+
+      // if (!title.length) {
+      //   console.log("djsjfsd");
+      //   return toast.error("write down the Title")
+     if (textEditor.isReady) {
+        console.log(textEditor.isReady, "dkkfkj");
+        textEditor.save().then((data) => {
+          console.log(data.blocks , "dfm");
           if (data.blocks.length) {
-            setBlogger({ ...Blogger, content: data })
+            setBlogger({ ...Blogger, content: data });
           }
-        })
+        });  // }
+     
       }
-      console.log("call2")
     } catch (error) {
-      console.log("error",error)
+      console.log("error", error);
     }
-  
-    
-  }
+  };
 
   const Handlechange = (e) => {
     let imgs = e.target.files[0];
@@ -81,7 +84,7 @@ const Blogeditor = () => {
             toast.dismiss(loadingToast);
             toast.success("uploaded");
             setBlogger({ ...Blogger, banner: url });
-          };
+          }
         })
         .catch((err) => {
           toast.dismiss(loadingToast);
@@ -101,10 +104,13 @@ const Blogeditor = () => {
             {" "}
             {title.length ? title : "New Blog"}
           </p>
-          <button className="btn-dark py-2 " onClick={Handlepublish} >publish</button>
+          <button className="btn-dark py-2 " onClick={Handlepublish}>
+            publish
+          </button>
           <button className="btn-light py-2 "> save Draft</button>
         </div>
       </nav>
+      <Toaster />
       <PageAnimation>
         <section>
           <div className="max-auto  max-w-[900px] w-full">
