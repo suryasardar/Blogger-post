@@ -20,12 +20,14 @@ const Blogeditor = () => {
   // console.log(blogger);
 
   useEffect(() => {
-    settextEditor( new EditorJS({
-      holder: "textEditor",
-      data: "",
-      tools: tools,
-      placeholder: "lets write an awesome story",
-    }));
+    settextEditor(
+      new EditorJS({
+        holder: "textEditor",
+        data: "",
+        tools: tools,
+        placeholder: "lets write an awesome story",
+      })
+    );
     // Instance.isReady.then(() => {
     //   Instance.isReady = true;
     //   settextEditor(Instance);
@@ -48,7 +50,7 @@ const Blogeditor = () => {
     setBlogger({ ...Blogger, title: input.value });
   };
 
-  const Handlepublish = (e) => {
+  const Handlepublish = () => {
     //  console.log(e);
     console.log(banner, title);
     try {
@@ -56,18 +58,17 @@ const Blogeditor = () => {
       //   return toast.error("upload the Image")
       // }
 
-      // if (!title.length) {
-      //   console.log("djsjfsd");
-      //   return toast.error("write down the Title")
-     if (textEditor.isReady) {
+      if (!title.length) {
+        return toast.error("write down the Title");
+      }
+      if (textEditor.isReady) {
         console.log(textEditor, "dkkfkj");
-       textEditor.save().then(( data ) => {
+        textEditor.save().then((data) => {
           console.log(data, "dfm");
           if (data.blocks) {
             setBlogger({ ...Blogger, content: data });
           }
-        });  // }
-     
+        });
       }
     } catch (error) {
       console.log("error", error);
