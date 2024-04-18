@@ -43,7 +43,7 @@ const Login = ({ type }) => {
       .post("http://localhost:4000/api/user" + serverRoute, formData)
       .then((data) => {
         storeInsession("user", JSON.stringify(data));
-        console.log();
+         
         setuserAuth(data);
       })
       .catch(({ response }) => {

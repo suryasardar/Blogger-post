@@ -5,10 +5,10 @@ require("dotenv").config();
 
 const s3 = new aws.S3({
   region: "ap-southeast-2",
-  credentials: new aws.Credentials({
+  // credentials: new aws.Credentials({
     accessKeyId: process.env.accessKeyId,
     secretAccessKey: process.env.secretAccessKey
-  })
+  // })
 });
 
 const generateURL = async () => {
