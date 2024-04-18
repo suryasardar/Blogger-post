@@ -20,7 +20,7 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    // <Router>
       <usercontext.Provider value={{ userAuth, setuserAuth }}>
        {/* <Navbar/> */}
         <Routes>
@@ -33,7 +33,7 @@ function App() {
           </Route>
         </Routes>
       </usercontext.Provider>
-    </Router>
+    // </Router>
   );
 }
 

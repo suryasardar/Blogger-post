@@ -20,16 +20,16 @@ const Blogeditor = () => {
   // console.log(blogger);
 
   useEffect(() => {
-    const Instance = new EditorJS({
+    settextEditor( new EditorJS({
       holder: "textEditor",
       data: "",
       tools: tools,
       placeholder: "lets write an awesome story",
-    });
-    Instance.isReady.then(() => {
-      Instance.isReady = true;
-      settextEditor(Instance);
-    });
+    }));
+    // Instance.isReady.then(() => {
+    //   Instance.isReady = true;
+    //   settextEditor(Instance);
+    // });
     // return () => {
     //   Instance.destroy();
     // };
@@ -60,10 +60,10 @@ const Blogeditor = () => {
       //   console.log("djsjfsd");
       //   return toast.error("write down the Title")
      if (textEditor.isReady) {
-        console.log(textEditor.isReady, "dkkfkj");
-        textEditor.save().then((data) => {
-          console.log(data.blocks , "dfm");
-          if (data.blocks.length) {
+        console.log(textEditor, "dkkfkj");
+       textEditor.save().then(( data ) => {
+          console.log(data, "dfm");
+          if (data.blocks) {
             setBlogger({ ...Blogger, content: data });
           }
         });  // }
