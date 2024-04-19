@@ -16,6 +16,7 @@ const Blogeditor = () => {
     setBlogger,
     textEditor,
     settextEditor,
+    seteditorstate
   } = useContext(EditorContext);
   // console.log(blogger);
 
@@ -58,15 +59,21 @@ const Blogeditor = () => {
       //   return toast.error("upload the Image")
       // }
 
-      if (!title.length) {
-        return toast.error("write down the Title");
-      }
+      // if (!title.length) {
+      //   return toast.error("write down the Title");
+      // }
       if (textEditor.isReady) {
         console.log(textEditor, "dkkfkj");
         textEditor.save().then((data) => {
           console.log(data, "dfm");
-          if (data.blocks) {
+          if (data.blocks.length) {
             setBlogger({ ...Blogger, content: data });
+            console.log(content,"jsdfjsdfkjk");
+            // seteditorstate("pulish")
+          }
+          else {
+            
+            return toast.error("Write something in your blog")
           }
         });
       }
@@ -85,7 +92,8 @@ const Blogeditor = () => {
             toast.dismiss(loadingToast);
             toast.success("uploaded");
             setBlogger({ ...Blogger, banner: url });
-          }
+            
+          }  
         })
         .catch((err) => {
           toast.dismiss(loadingToast);
