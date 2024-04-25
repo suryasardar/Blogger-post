@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useReducer, useRef } from "react";
 import Blog from "../Images/logo.png";
 import { Link } from "react-router-dom";
 import PageAnimation from "../common/Pageanimation";
@@ -16,26 +16,34 @@ const Blogeditor = () => {
     setBlogger,
     textEditor,
     settextEditor,
-    seteditorstate
   } = useContext(EditorContext);
-  // console.log(blogger);
+
+  const ejInstance = useRef();
+  const initEditor = () => {
+    const editor = new EditorJS({
+      holder: "textEditor",
+      onReady: () => {
+        ejInstance.current = editor;
+      },
+      autofocus: true,
+      data: "",
+      tools: tools,
+      onChange: async () => {
+        let data = await editor.saver.save();
+
+        console.log(data);
+      },
+    });
+  };
 
   useEffect(() => {
-    settextEditor(
-      new EditorJS({
-        holder: "textEditor",
-        data: "",
-        tools: tools,
-        placeholder: "lets write an awesome story",
-      })
-    );
-    // Instance.isReady.then(() => {
-    //   Instance.isReady = true;
-    //   settextEditor(Instance);
-    // });
-    // return () => {
-    //   Instance.destroy();
-    // };
+    if (ejInstance.current == null) {
+      initEditor();
+    }
+    return () => {
+      ejInstance?.current?.destroy();
+      ejInstance.current = null;
+    };
   }, []);
 
   const Handletitlekeydown = (e) => {
@@ -68,12 +76,10 @@ const Blogeditor = () => {
           console.log(data, "dfm");
           if (data.blocks.length) {
             setBlogger({ ...Blogger, content: data });
-            console.log(content,"jsdfjsdfkjk");
+            console.log(content, "jsdfjsdfkjk");
             // seteditorstate("pulish")
-          }
-          else {
-            
-            return toast.error("Write something in your blog")
+          } else {
+            return toast.error("Write something in your blog");
           }
         });
       }
@@ -92,8 +98,7 @@ const Blogeditor = () => {
             toast.dismiss(loadingToast);
             toast.success("uploaded");
             setBlogger({ ...Blogger, banner: url });
-            
-          }  
+          }
         })
         .catch((err) => {
           toast.dismiss(loadingToast);
