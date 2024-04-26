@@ -14,8 +14,8 @@ const Blogeditor = () => {
     Blogger,
     Blogger: { title, banner, content, tags, des },
     setBlogger,
-    textEditor,
-    settextEditor,
+    seteditorstate
+     
   } = useContext(EditorContext);
 
   const ejInstance = useRef();
@@ -30,7 +30,9 @@ const Blogeditor = () => {
       tools: tools,
       onChange: async () => {
         let data = await editor.saver.save();
-
+         
+        setBlogger({ ...Blogger, content: data });
+         
         console.log(data);
       },
     });
@@ -51,17 +53,17 @@ const Blogeditor = () => {
       e.preventDefault();
     }
   };
-
+   
   const Handlechangetext = (e) => {
     let input = e.target;
     input.style.height = "auto";
     input.style.height = input.scrollHeight + "px";
     setBlogger({ ...Blogger, title: input.value });
   };
-
+console.log(title,"surya");
   const Handlepublish = () => {
-    //  console.log(e);
-    console.log(banner, title);
+    
+    
     try {
       // if (!banner.length) {
       //   return toast.error("upload the Image")
@@ -70,23 +72,14 @@ const Blogeditor = () => {
       // if (!title.length) {
       //   return toast.error("write down the Title");
       // }
-      if (textEditor.isReady) {
-        console.log(textEditor, "dkkfkj");
-        textEditor.save().then((data) => {
-          console.log(data, "dfm");
-          if (data.blocks.length) {
-            setBlogger({ ...Blogger, content: data });
-            console.log(content, "jsdfjsdfkjk");
-            // seteditorstate("pulish")
-          } else {
-            return toast.error("Write something in your blog");
-          }
-        });
-      }
-    } catch (error) {
-      console.log("error", error);
+      seteditorstate("publish");
+           
     }
-  };
+    catch (err) {
+      console.log(err);
+    }
+  }
+
 
   const Handlechange = (e) => {
     let imgs = e.target.files[0];
@@ -106,6 +99,7 @@ const Blogeditor = () => {
         });
     }
   };
+
   return (
     <>
       <nav className="navbar items-center">

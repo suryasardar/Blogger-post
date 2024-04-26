@@ -23,8 +23,7 @@ const Editorpage = () => {
     const Naviagate = useNavigate();
     const { userAuth } = useContext(usercontext);
     const token = userAuth && userAuth.data && userAuth.data.token;
-  console.log(token, "surya");
-  console.log(textEditor,"sury");
+   
   
   return (
     <EditorContext.Provider value={{Blogger,setBlogger,editorstate,seteditorstate,textEditor,settextEditor}}>
