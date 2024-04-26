@@ -26,7 +26,7 @@ const Blogeditor = () => {
         ejInstance.current = editor;
       },
       autofocus: true,
-      data: "",
+      data:content,
       tools: tools,
       onChange: async () => {
         let data = await editor.saver.save();
@@ -140,6 +140,7 @@ console.log(title,"surya");
             </div>
             <textarea
               placeholder="Blog Title"
+              defaultValue={title}
               className="text-4xl font-medium w-full h-20 resize-none mt-10 outline-none leading-tight placeholder:opacity-40"
               onKeyDown={Handletitlekeydown}
               onChange={Handlechangetext}

@@ -10,7 +10,7 @@ const Editorpage = () => {
   const Blogstructure = {
     title: '',
     banner: '',
-    content: '',
+    content: [],
     tags: [],
     des: '',
     author:{personal_info:{}}
