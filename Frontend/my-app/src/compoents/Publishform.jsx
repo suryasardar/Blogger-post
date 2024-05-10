@@ -56,9 +56,11 @@ const Publishform = () => {
         >
           <i className="fi fi-rr-cross"></i>
         </button>
-        <div className="max-w-[550px] center">
+
+
+        <div className= "mt-24">
           <p className="text-dark-grey mb-1">preview</p>
-          <div className="w-full aspect-video rounded-lg overflow-hidden bg-grey mt-4">
+          <div className="w-full aspect-video   rounded-lg overflow-hidden bg-grey mt-4">
             <img src={banner} />
           </div>
           <h1 className="text-4xl font-medium mt-2 leading-tight line-clamp-2">
@@ -67,7 +69,10 @@ const Publishform = () => {
           <p className="font-gelasio line-clamp-2 text-xl leading-7 mt-4">
             {des}
           </p>
-          <div className="border-grey lg:border-1 lg:pl-8">
+        </div>
+        
+
+          <div className="border-grey lg:border-1 lg:pl-8 mt-24">
             <p className="text-dark-grey mb-2 mt-9"> Blog Title</p>
             <input type="text" placeholder="Blog Title" defaultValue={title} className="input-box pl-4"  onChange={Handlechange}/>
             <p className="text-dark-grey mb-2 mt-9">Short Description about your Blog</p>
@@ -87,12 +92,15 @@ const Publishform = () => {
               {/* <Tags tag="testing tag"/> */}
               {
                 tags.map((val,i) => {
-                 return <Tags tag={val} key={i}/>
+                 return <Tags tag={val} tagindex={i} key={i}/>
                 })
               }
             </div>
-          </div>
+            <p className="mt-1 mb-4 text-dark-grey text-right">{taglimit - tags.length}</p>
+            <button className="btn-dark px-8 ">Publish</button>
+          
         </div>
+
       </section>
     </PageAnimation>
   );
